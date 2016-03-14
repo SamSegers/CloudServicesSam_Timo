@@ -4,9 +4,31 @@ var favicon = require('serve-favicon');
 var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
+var mongoose = require('mongoose');
 
+// data access layer
+mongoose.connect('mongodb://localhost:27017/pubcrawl');
+
+// models
+require('./models/race')(mongoose);
+require('./models/user')(mongoose);
+require('./models/fillTestData')(mongoose);
+
+function handleError(req, res, statusCode, message){
+    console.log();
+    console.log('-------- Error handled --------');
+    console.log('Request Params: ' + JSON.stringify(req.params));
+    console.log('Request Body: ' + JSON.stringify(req.body));
+    console.log('Response sent: Statuscode ' + statusCode + ', Message "' + message + '"');
+    console.log('-------- /Error handled --------');
+    res.status(statusCode);
+    res.json(message);
+};
+
+// routes
 var routes = require('./routes/index');
 var users = require('./routes/users');
+var races = require('./routes/races');
 
 var app = express();
 
@@ -24,6 +46,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', routes);
 app.use('/users', users);
+app.use('/races', races);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
