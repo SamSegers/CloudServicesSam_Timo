@@ -1,9 +1,161 @@
 var express = require('express');
 var router = express.Router();
+var Race;
+var User;
+var handleError;
 
-/* GET users listing. */
-router.get('/', function(req, res, next) {
-	res.send('respond with a resource');
-});
+function getUsers(req, res){
+	var query = {};
+	if(req.params.id) query._id = req.params.id;
 
-module.exports = router;
+	var result = User.find(query);
+
+	result.exec(function(err, data){
+		if(err) return handleError(req, res, 500, err);
+
+		if(req.params.id) data = data[0];
+		res.json(data);
+	});
+}
+
+function addUser(req, res){
+	var newUsername = req.params.username;
+
+	User.find({username: newUsername}, function(err, data){
+		if(data.length==0){
+			//var user = new User(req.body);
+			var user = new User({
+				username: newUsername,
+				firstname: req.params.firstname,
+				lastname: req.params.lastname
+			});
+			user.save(function(err, savedUser){
+				if(err){ return handleError(req, res, 500, err); }
+				else {
+					res.status(201);
+					res.json(savedUser);
+				}
+			});
+		}else res.status(409).send('username already in use');
+	});
+}
+
+function updateUsername(req, res){
+	User.findByIdAndUpdate(
+		{_id: req.params.id},
+		{username: req.params.username},
+		{safe: true, upsert: true},
+		function(err, data) {
+			if(err){ return handleError(req, res, 500, err); }
+			else {
+				res.status(200);
+				res.json(data);
+			}
+		}
+	);
+}
+
+function updateFirstname(req, res){
+	User.findByIdAndUpdate(
+		{_id: req.params.id},
+		{firstname: req.params.firstname},
+		{safe: true, upsert: true},
+		function(err, data) {
+			if(err){ return handleError(req, res, 500, err); }
+			else {
+				res.status(200);
+				res.json(data);
+			}
+		}
+	);
+}
+
+function updateLastname(req, res){
+	User.findByIdAndUpdate(
+		{_id: req.params.id},
+		{lastname: req.params.lastname},
+		{safe: true, upsert: true},
+		function(err, data) {
+			if(err){ return handleError(req, res, 500, err); }
+			else {
+				res.status(200);
+				res.json(data);
+			}
+		}
+	);
+}
+
+function updateCountry(req, res){
+	User.findByIdAndUpdate(
+		{_id: req.params.id},
+		{country: req.params.country},
+		{safe: true, upsert: true},
+		function(err, data) {
+			if(err){ return handleError(req, res, 500, err); }
+			else {
+				res.status(200);
+				res.json(data);
+			}
+		}
+	);
+}
+
+function updateBirthdate(req, res){
+	User.findByIdAndUpdate(
+		{_id: req.params.id},
+		{birthdate: req.params.birthdate},
+		{safe: true, upsert: true},
+		function(err, data) {
+			if(err){ return handleError(req, res, 500, err); }
+			else {
+				res.status(200);
+				res.json(data);
+			}
+		}
+	);
+}
+
+function removeUser(req, res){
+	User.remove(
+		{_id: req.params.id},
+		function(err, data){
+			if(err){ return handleError(req, res, 500, err); }
+			res.status(200).send('user successful removed');
+		}
+	);
+}
+
+router.route('/').get(getUsers);
+
+router.route('/:id')
+	.get(getUsers)
+	.delete(removeUser);
+
+// only insert for users, country and birthdate need to be added through PUT
+router.route('/:username/firstname/:firstname/lastname/:lastname')
+	.post(addUser);
+
+router.route('/:id/username/:username')
+	.put(updateUsername)
+
+router.route('/:id/firstname/:firstname')
+	.put(updateFirstname)
+
+router.route('/:id/lastname/:lastname')
+	.put(updateLastname)
+
+router.route('/:id/country/:country')
+	.put(updateCountry)
+
+router.route('/:id/birthdate/:birthdate')
+	.put(updateBirthdate);
+
+//TODO races tagging
+
+module.exports = function (mongoose, errCallback){
+	console.log('Initializing users routing module');
+	Race = mongoose.model('Race');
+	User = mongoose.model('User');
+	handleError = errCallback;
+	return router;
+};

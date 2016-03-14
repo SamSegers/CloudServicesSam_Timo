@@ -35,14 +35,14 @@ function fillTestUser(callback){
 			firstname: 'Douglas',
 			lastname: 'Adams',
 			country: 'US',
-			books: ['1', '2', '4']
+			//race: ['1', '2', '4'] TODO 
 		},
 		{
 			username: 'darrenshan',
 			firstname: 'Darren',
 			lastname: 'Shan',
 			country: 'EN',
-			books: ['2', '1', '3']
+			//race: ['2', '1', '3'] TODO
 		}
 	];
 

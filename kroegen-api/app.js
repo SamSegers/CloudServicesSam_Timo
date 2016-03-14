@@ -27,8 +27,8 @@ function handleError(req, res, statusCode, message){
 
 // routes
 var routes = require('./routes/index');
-var users = require('./routes/users');
-var races = require('./routes/races');
+var users = require('./routes/users')(mongoose, handleError);
+var races = require('./routes/races')(mongoose, handleError);
 
 var app = express();
 
