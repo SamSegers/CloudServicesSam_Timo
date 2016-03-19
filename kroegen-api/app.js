@@ -6,6 +6,8 @@ var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 var mongoose = require('mongoose');
 
+var util = require('./util/index');
+
 // data access layer
 mongoose.connect('mongodb://localhost:27017/pubcrawl');
 
