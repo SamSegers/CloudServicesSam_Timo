@@ -25,7 +25,6 @@ var listener = io.listen(server);
 listener.sockets.on('connection',function(socket){
 });
 
-/* GET home page. */
 router.get('/', function(req, res, next) {
   res.render('index', { title: 'Express' });
 });
