@@ -3,22 +3,29 @@ var router = express.Router();
 var util = require('../util/index');
 var Race;
 var User;
+var Passport;
 var handleError;
 
 // GET
 
 function getRaces(req, res){
-	var query = {};
-	if(req.params.id) query._id = req.params.id;
+	console.log(req.session);
+	if(req.user){
+		var query = {};
+		if(req.params.id) query._id = req.params.id;
 
-	var result = Race.find(query);
+		var result = Race.find(query);
 
-	result.exec(function(err, data){
-		if(err) return handleError(req, res, 500, err);
+		result.exec(function(err, data){
+			if(err) return handleError(req, res, 500, err);
 
-		if(req.params.id) data = data[0];
-		res.json(data);
-	});
+			if(req.params.id) data = data[0];
+			res.json(data);
+		});
+	}else{ 
+		console.log('not logged in');
+		res.status(400).send('not logged in');
+	}
 }
 
 // POST
@@ -142,10 +149,11 @@ router.route('/:id/enddate/:date')
 router.route('/:id/waypoint/:waypoint')
 	.put(addRaceWaypoint)
 
-module.exports = function (mongoose, errCallback){
+module.exports = function (mongoose, passport, errCallback){
 	console.log('Initializing races routing module');
 	Race = mongoose.model('Race');
 	User = mongoose.model('User');
+	Passport = passport;
 	handleError = errCallback;
 	return router;
 };

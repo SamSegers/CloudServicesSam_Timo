@@ -32,6 +32,7 @@ function fillTestUser(callback){
 	var testData = [
 		{
 			username: 'hitchhiker',
+			password: 'password',
 			firstname: 'Douglas',
 			lastname: 'Adams',
 			country: 'US',
@@ -39,6 +40,7 @@ function fillTestUser(callback){
 		},
 		{
 			username: 'darrenshan',
+			password: 'password',
 			firstname: 'Darren',
 			lastname: 'Shan',
 			country: 'EN',
@@ -63,5 +65,5 @@ module.exports = function(mongoose){
 	Race = mongoose.model('Race');
 	User = mongoose.model('User');
 
-	fillTestRace(fillTestUser);
+	//fillTestRace(fillTestUser);
 }
