@@ -5,9 +5,10 @@ var io = require('socket.io');
 var url = require('url');
 var passport = require('passport');
 var bodyParser = require('body-parser');
+var mongoose = require('mongoose');
 
-var User = require('../models/user');
-
+var User = mongoose.model('User'); //User = require('../models/user');
+	
 var server = http.createServer(function(request,response)
 {
 	var path = url.parse(request.url).pathname;
@@ -33,51 +34,36 @@ router.get('/', function(req, res, next) {
 	res.render('index', { title: 'Express' });
 });
 
-router.post('/register', function(req, res) {
+//TODO: check if username already exists
+router.post('/signup', function(req, res) {
     User.register(new User({ username : req.body.username }), req.body.password, function(err, account) {
-        if (err) {
-			return res.send('nope');
-            //return res.render('register', { account : account });
-        }
+        if (err) return res.status(400).send('an error occured');
 
         passport.authenticate('local')(req, res, function () {
-			return res.send('aye');
-            //res.redirect('/');
+			return res.send('signed up');
         });
     });
 });
 
-/*router.get('/login', function(req, res) {
-    res.render('login', { user : req.user, message : req.flash('error')});
-});*/
-
-//app.post('/login', passport.authenticate('local'));
-//app.post('/signup', passport.authenticate('local'));
-
-router.post('/login', passport.authenticate('local'),/*bodyParser.urlencoded({ extended: true }),*/ function(req, res) {
-	/*req.login(req.body, function(err) {
-		if (err) { console.log(err); }
-	});*/
-
-	//console.log(req.user.username);
-	/*passport.authenticate('local', function (err, user, info) {
-		console.log(err);*/
-
+router.post('/login', function(req, res, next){
+	User.find({username: req.body.username}, function(err, data){
+		if(data.length==0) res.status(400).send('user does not exist');
+		else next();
+	});
+}, passport.authenticate('local'), function(req, res) {
 	//req.session.cookie.expires = false;
 	//req.session.cookie.maxAge = 5 * 60 * 1000;
 	req.session.user = req.user;
+	req.session.save(function (err) {
+		if (err) return res.send('an error occured');
+		return res.send('authorized');
+	});
 	console.log(req.session);
-	//req.session.save(function (err) {
-		/*if (err) return res.send('an error occured');
-		return res.send('authorized');*/
-	//});
-	res.send('authorized');
-	//});
 });
 
 router.get('/logout', function(req, res) {
     req.logout();
-    //res.redirect('/');
+	res.status(200).send('signed out');
 });
 
 module.exports = router;

@@ -1,31 +1,25 @@
 var express = require('express');
+var passport = require('passport');
 var router = express.Router();
 var util = require('../util/index');
 var Race;
 var User;
-var Passport;
 var handleError;
 
 // GET
 
 function getRaces(req, res){
-	console.log(req.session);
-	if(req.user){
-		var query = {};
-		if(req.params.id) query._id = req.params.id;
+	var query = {};
+	if(req.params.id) query._id = req.params.id;
 
-		var result = Race.find(query);
+	var result = Race.find(query);
 
-		result.exec(function(err, data){
-			if(err) return handleError(req, res, 500, err);
+	result.exec(function(err, data){
+		if(err) return handleError(req, res, 500, err);
 
-			if(req.params.id) data = data[0];
-			res.json(data);
-		});
-	}else{ 
-		console.log('not logged in');
-		res.status(400).send('not logged in');
-	}
+		if(req.params.id) data = data[0];
+		res.json(data);
+	});
 }
 
 // POST
@@ -128,32 +122,31 @@ function removeRace(req, res){
 	);
 }
 
-router.route('/').get(getRaces);
+router.route('/').get(util.isAuthenticated, getRaces);
 
 router.route('/:id')
-	.get(getRaces)
-	.delete(removeRace);
+	.get(util.isAuthenticated, getRaces)
+	.delete(util.isAuthenticated, removeRace);
 
 router.route('/:name')
-	.post(addRace)
+	.post(util.isAuthenticated, addRace)
 
 router.route('/:id/name/:name')
-	.put(updateRaceName)
+	.put(util.isAuthenticated, updateRaceName)
 
 router.route('/:id/startdate/:date')
-	.put(updateRaceStartDate)
+	.put(util.isAuthenticated, updateRaceStartDate)
 
 router.route('/:id/enddate/:date')
-	.put(updateRaceEndDate)
+	.put(util.isAuthenticated, updateRaceEndDate)
 
 router.route('/:id/waypoint/:waypoint')
-	.put(addRaceWaypoint)
+	.put(util.isAuthenticated, addRaceWaypoint)
 
-module.exports = function (mongoose, passport, errCallback){
+module.exports = function (mongoose, errCallback){
 	console.log('Initializing races routing module');
 	Race = mongoose.model('Race');
 	User = mongoose.model('User');
-	Passport = passport;
 	handleError = errCallback;
 	return router;
 };

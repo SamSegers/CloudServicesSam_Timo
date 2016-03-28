@@ -65,5 +65,6 @@ module.exports = function(mongoose){
 	Race = mongoose.model('Race');
 	User = mongoose.model('User');
 
+	fillTestRace();
 	//fillTestRace(fillTestUser);
 }

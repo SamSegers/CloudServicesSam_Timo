@@ -17,7 +17,7 @@ mongoose.connect('mongodb://localhost:27017/pubcrawl');
 
 // models
 require('./models/race')(mongoose);
-var userModel = require('./models/user');//(mongoose);
+var User = require('./models/user')(mongoose);
 require('./models/fillTestData')(mongoose);
 
 function handleError(req, res, statusCode, message){
@@ -34,7 +34,7 @@ function handleError(req, res, statusCode, message){
 // routes
 var routes = require('./routes/index');
 var users = require('./routes/users')(mongoose, handleError);
-var races = require('./routes/races')(mongoose, passport, handleError);
+var races = require('./routes/races')(mongoose, handleError);
 
 var app = express();
 
@@ -66,9 +66,9 @@ app.use('/', routes);
 app.use('/users', users);
 app.use('/races', races);
 
-passport.use(new LocalStrategy(userModel.authenticate()));
-passport.serializeUser(userModel.serializeUser());
-passport.deserializeUser(userModel.deserializeUser());
+passport.use(new LocalStrategy(User.authenticate()));
+passport.serializeUser(User.serializeUser());
+passport.deserializeUser(User.deserializeUser());
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
