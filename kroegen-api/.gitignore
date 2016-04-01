@@ -1,3 +1,4 @@
 node_modules
 data/*
+!data/keep-file-in-dir
 npm-debug.log
