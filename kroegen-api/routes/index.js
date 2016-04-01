@@ -34,10 +34,9 @@ router.get('/', function(req, res, next) {
 	res.render('index', { title: 'Express' });
 });
 
-//TODO: check if username already exists
 router.post('/signup', function(req, res) {
     User.register(new User({ username : req.body.username }), req.body.password, function(err, account) {
-        if (err) return res.status(400).send('an error occured');
+        if (err) return res.status(400).send(err);
 
         passport.authenticate('local')(req, res, function () {
 			return res.send('signed up');
