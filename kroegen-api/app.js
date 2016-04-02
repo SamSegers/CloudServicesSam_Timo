@@ -35,6 +35,7 @@ function handleError(req, res, statusCode, message){
 var routes = require('./routes/index');
 var users = require('./routes/users')(mongoose, handleError);
 var races = require('./routes/races')(mongoose, handleError);
+var pubs = require('./routes/pubs')(mongoose, handleError);
 
 var app = express();
 
@@ -65,6 +66,7 @@ app.use(flash()); // use connect-flash for flash messages stored in session
 app.use('/', routes);
 app.use('/users', users);
 app.use('/races', races);
+app.use('/pubs', pubs);
 
 passport.use(new LocalStrategy(User.authenticate()));
 passport.serializeUser(User.serializeUser());
