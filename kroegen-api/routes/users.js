@@ -125,6 +125,19 @@ function removeUser(req, res){
 	);
 }
 
+function addPub(req, res){
+	console.log(req.user.id, req.params.pubId);
+	User.findByIdAndUpdate(
+		req.user.id,
+		{$push: {'pub': req.params.pubId}},
+		{safe: true, upsert: true},
+		function(err, data) {
+			if(err) res.status(400).send(err);
+			else res.status(200).json(data);
+		}
+	);
+}
+
 router.route('/').get(getUsers);
 
 router.route('/:id')
@@ -149,6 +162,9 @@ router.route('/:id/country/:country')
 
 router.route('/:id/birthdate/:birthdate')
 	.put(updateBirthdate);
+
+router.route('/pubs/:pubId')
+	.put(addPub);
 
 //TODO races tagging
 
