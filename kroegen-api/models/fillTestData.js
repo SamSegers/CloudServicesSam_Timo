@@ -11,6 +11,7 @@ function fillTestRace(callback){
 	var testData = [
 		{
 			name: 'pilgrimage',
+			authorId: 'testid',
 			waypoints: ['1', '2', '3', '4']
 		}
 	];

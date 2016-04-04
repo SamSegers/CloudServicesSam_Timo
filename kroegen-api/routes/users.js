@@ -152,6 +152,13 @@ function getRaces(req, res){
 	});
 }
 
+function getRacesCreated(req, res){
+	Race.find({authorId: req.user.id}, function(err, data){
+		if(err) res.status(400).json(err); 		
+		else res.status(200).json(data);
+	});
+}
+
 router.route('/').get(getUsers);
 
 router.route('/pubs')
@@ -162,6 +169,9 @@ router.route('/pubs/:pubId')
 
 router.route('/races')
 	.get(util.isAuthenticated, getRaces);
+
+router.route('/racescreated')
+	.get(util.isAuthenticated, getRacesCreated);
 
 router.route('/:id')
 	.get(getUsers)

@@ -12,9 +12,13 @@ function init(mongoose){
 	var Race = mongoose.Schema;
 	var data = new Race({
 		name: {type: String, required: true},
+		authorId: {type: String, required: true},
 	    startDate: {type: Date, default: tomorrow, required: true},
 	    endDate: {type: Date, default: dayAfterTomorrow, required: true},
-		waypoints: [String], // pubs, ids are from the maps API
+		pubs: [{ // pubs, ids are from the google API, TODO: use Pub model
+			id: {type: String, required: true},
+			name: String
+		}], 
 	});
 	mongoose.model("Race", data);
 }

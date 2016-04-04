@@ -10,7 +10,10 @@ function init(mongoose){
 	    //lastname: {type: String, required: true},
 		birthdate: {type: Date, default: Date.now},
 		country: {type: String, default: 'NL'},
-		pub: [String],
+		pub: [{
+			id: {type: String, required: true},
+			name: String,
+		}],
 		race: [{
 			id: {type: String, required: true}, 
 			tagged: [String] // get waypoints from the race id, add id as a tag

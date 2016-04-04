@@ -31,6 +31,7 @@ function addRace(req, res){
 		if(data.length==0){
 			var race = new Race({
 				name: newName,
+				authorId: req.user.id
 			});
 			race.save(function(err, savedRace){
 				if(err){ return handleError(req, res, 500, err); }
@@ -99,10 +100,10 @@ function updateRaceEndDate(req, res){
 	}else res.status(406).send(date+' does not qualify the ISO 1861 standard (YYYYMMDD)');
 }
 
-function addRaceWaypoint(req, res){
+function addRacePub(req, res){
 	Race.findByIdAndUpdate(
 		req.params.id,
-		{$push: {"waypoints": req.params.waypoint}},
+		{$push: {"pubs": {"id": req.params.pubId, "name": req.params.pubName}}},
 		{safe: true, upsert: true},
 		function(err, data) {
 			res.status(200).json(data);
@@ -122,10 +123,10 @@ function removeRace(req, res){
 	);
 }
 
-router.route('/').get(util.isAuthenticated, getRaces);
+router.route('/').get(getRaces);
 
 router.route('/:id')
-	.get(util.isAuthenticated, getRaces)
+	.get(getRaces)
 	.delete(util.isAuthenticated, removeRace);
 
 router.route('/:name')
@@ -140,8 +141,8 @@ router.route('/:id/startdate/:date')
 router.route('/:id/enddate/:date')
 	.put(util.isAuthenticated, updateRaceEndDate)
 
-router.route('/:id/waypoint/:waypoint')
-	.put(util.isAuthenticated, addRaceWaypoint)
+router.route('/:id/pub/:pubId/name/:pubName')
+	.put(util.isAuthenticated, addRacePub)
 
 module.exports = function (mongoose, errCallback){
 	console.log('Initializing races routing module');
