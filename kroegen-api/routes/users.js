@@ -1,5 +1,6 @@
 var express = require('express');
 var router = express.Router();
+var util = require('../util/index');
 var Race;
 var User;
 var handleError;
@@ -24,7 +25,6 @@ function addUser(req, res){
 
 	User.find({username: newUsername}, function(err, data){
 		if(data.length==0){
-			//var user = new User(req.body);
 			var user = new User({
 				username: newUsername,
 				firstname: req.params.firstname,
@@ -126,8 +126,14 @@ function removeUser(req, res){
 	);
 }
 
+function getPubs(req, res){
+	User.find({_id: req.user.id}, {_id: 0, pub: 1}, function(err, data){
+		if(err) res.status(400).json(err); 		
+		else res.status(200).json(data);
+	});
+}
+
 function addPub(req, res){
-	console.log(req.user.id, req.params.pubId);
 	User.findByIdAndUpdate(
 		req.user.id,
 		{$push: {'pub': req.params.pubId}},
@@ -140,6 +146,12 @@ function addPub(req, res){
 }
 
 router.route('/').get(getUsers);
+
+router.route('/pubs')
+	.get(util.isAuthenticated, getPubs);
+
+router.route('/pubs/:pubId')
+	.put(addPub);
 
 router.route('/:id')
 	.get(getUsers)
@@ -163,9 +175,6 @@ router.route('/:id/country/:country')
 
 router.route('/:id/birthdate/:birthdate')
 	.put(updateBirthdate);
-
-router.route('/pubs/:pubId')
-	.put(addPub);
 
 //TODO races tagging
 
