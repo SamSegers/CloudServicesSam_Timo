@@ -45,6 +45,21 @@ function addRace(req, res){
 
 // PUT
 
+function updateRace(req, res){
+	Race.findByIdAndUpdate(
+		{_id: req.params.id},
+		{
+			name: req.body.name,
+			pubs: req.body.pubs
+		},
+		{safe: true, upsert: true},
+		function(err, data) {
+			if(err){ return handleError(req, res, 500, err); }
+			else res.status(200).json(data);
+		}
+	);
+}
+
 function updateRaceName(req, res){
 	Race.findByIdAndUpdate(
 		{_id: req.params.id},
@@ -52,10 +67,7 @@ function updateRaceName(req, res){
 		{safe: true, upsert: true},
 		function(err, data) {
 			if(err){ return handleError(req, res, 500, err); }
-			else {
-				res.status(200);
-				res.json(data);
-			}
+			else res.status(200).json(data);
 		}
 	);
 }
@@ -129,7 +141,10 @@ router.route('/:id')
 	.get(getRaces)
 	.delete(util.isAuthenticated, removeRace);
 
-router.route('/:name')
+router.route('/:id/update') //TODO :name inside the body of the request rathen than as a parameter
+	.put(util.isAuthenticated, updateRace);
+
+router.route('/new/:name')
 	.post(util.isAuthenticated, addRace)
 
 router.route('/:id/name/:name')
