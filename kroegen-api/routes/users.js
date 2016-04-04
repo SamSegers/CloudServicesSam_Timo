@@ -127,7 +127,7 @@ function removeUser(req, res){
 }
 
 function getPubs(req, res){
-	User.find({_id: req.user.id}, {_id: 0, pub: 1}, function(err, data){
+	User.findOne({_id: req.user.id}, {_id: 0, pub: 1}, function(err, data){
 		if(err) res.status(400).json(err); 		
 		else res.status(200).json(data);
 	});
@@ -145,6 +145,13 @@ function addPub(req, res){
 	);
 }
 
+function getRaces(req, res){
+	User.find({_id: req.user.id}, {_id: 0, race: 1}, function(err, data){
+		if(err) res.status(400).json(err); 		
+		else res.status(200).json(data);
+	});
+}
+
 router.route('/').get(getUsers);
 
 router.route('/pubs')
@@ -152,6 +159,9 @@ router.route('/pubs')
 
 router.route('/pubs/:pubId')
 	.put(addPub);
+
+router.route('/races')
+	.get(util.isAuthenticated, getRaces);
 
 router.route('/:id')
 	.get(getUsers)
