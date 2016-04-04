@@ -136,7 +136,7 @@ function getPubs(req, res){
 function addPub(req, res){
 	User.findByIdAndUpdate(
 		req.user.id,
-		{$push: {'pub': req.params.pubId}},
+		{$push: {'pub': {'id': req.params.pubId, 'name': req.params.pubName}}},
 		{safe: true, upsert: true},
 		function(err, data) {
 			if(err) res.status(400).send(err);
@@ -164,7 +164,7 @@ router.route('/').get(getUsers);
 router.route('/pubs')
 	.get(util.isAuthenticated, getPubs);
 
-router.route('/pubs/:pubId')
+router.route('/pubs/:pubId/name/:pubName')
 	.put(addPub);
 
 router.route('/races')
