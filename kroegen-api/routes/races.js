@@ -43,6 +43,43 @@ function addRace(req, res){
 	});
 }
 
+function updateRaceStartDate(req, res){
+	//var date = req.params.date.toString();
+	var date = Date.now();
+	console.log(date);
+
+	Race.findByIdAndUpdate(
+		{_id: req.params.id},
+		{startDate: date},
+		{safe: true, upsert: true},
+		function(err, data) {
+			if(err) return handleError(req, res, 500, err); 
+			else res.status(200).json(data);
+		}
+	);
+}
+
+function updateRaceEndDate(req, res){
+	//var date = req.params.date.toString();
+	var date = Date.now();
+	//if(date.length==8 && util.isNumber(date)){
+	//	var YYYY = date.substr(0, 4);
+	//	var MM = date.substr(4, 2);
+	//	var DD = date.substr(6, 2);
+
+	Race.findByIdAndUpdate(
+		{_id: req.params.id},
+		{endDate: date},
+		//{endDate: new Date(YYYY, MM-1, DD)},
+		{safe: true, upsert: true},
+		function(err, data) {
+			if(err) return handleError(req, res, 500, err); 
+			else res.status(200).json(data);
+		}
+	);
+	//}else res.status(406).send(date+' does not qualify the ISO 1861 standard (YYYYMMDD)');
+}
+
 // PUT
 
 function updateRace(req, res){
@@ -70,42 +107,6 @@ function updateRaceName(req, res){
 			else res.status(200).json(data);
 		}
 	);
-}
-
-function updateRaceStartDate(req, res){
-	//var date = req.params.date.toString();
-	var date = Date().now();
-
-	Race.findByIdAndUpdate(
-		{_id: req.params.id},
-		{startDate: date},
-		{safe: true, upsert: true},
-		function(err, data) {
-			if(err) return handleError(req, res, 500, err); 
-			else res.status(200).json(data);
-		}
-	);
-}
-
-function updateRaceEndDate(req, res){
-	//var date = req.params.date.toString();
-	var date = Date().now();
-	//if(date.length==8 && util.isNumber(date)){
-	//	var YYYY = date.substr(0, 4);
-	//	var MM = date.substr(4, 2);
-	//	var DD = date.substr(6, 2);
-
-	Race.findByIdAndUpdate(
-		{_id: req.params.id},
-		{endDate: date},
-		//{endDate: new Date(YYYY, MM-1, DD)},
-		{safe: true, upsert: true},
-		function(err, data) {
-			if(err) return handleError(req, res, 500, err); 
-			else res.status(200).json(data);
-		}
-	);
-	//}else res.status(406).send(date+' does not qualify the ISO 1861 standard (YYYYMMDD)');
 }
 
 function addRacePub(req, res){
@@ -146,11 +147,11 @@ router.route('/new/:name')
 router.route('/:id/name/:name')
 	.put(util.isAuthenticated, updateRaceName)
 
-router.route('/:id/startdate/:date')
-	.put(util.isAuthenticated, updateRaceStartDate)
+router.route('/:id/start')
+	.post(util.isAuthenticated, updateRaceStartDate)
 
-router.route('/:id/enddate/:date')
-	.put(util.isAuthenticated, updateRaceEndDate)
+router.route('/:id/end')
+	.post(util.isAuthenticated, updateRaceEndDate)
 
 router.route('/:id/pub/:pubId/name/:pubName')
 	.put(util.isAuthenticated, addRacePub)
