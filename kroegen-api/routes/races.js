@@ -73,43 +73,39 @@ function updateRaceName(req, res){
 }
 
 function updateRaceStartDate(req, res){
-	var date = req.params.date.toString();
+	//var date = req.params.date.toString();
+	var date = Date().now();
 
-	if(date.length==8 && util.isNumber(date)){
-		var YYYY = date.substr(0, 4);
-		var MM = date.substr(4, 2);
-		var DD = date.substr(6, 2);
-
-		Race.findByIdAndUpdate(
-			{_id: req.params.id},
-			{startDate: new Date(YYYY, MM-1, DD)},
-			{safe: true, upsert: true},
-			function(err, data) {
-				if(err) return handleError(req, res, 500, err); 
-				else res.status(200).json(data);
-			}
-		);
-	}else res.status(406).send(date+' does not qualify the ISO 1861 standard (YYYYMMDD)');
+	Race.findByIdAndUpdate(
+		{_id: req.params.id},
+		{startDate: date},
+		{safe: true, upsert: true},
+		function(err, data) {
+			if(err) return handleError(req, res, 500, err); 
+			else res.status(200).json(data);
+		}
+	);
 }
 
 function updateRaceEndDate(req, res){
-	var date = req.params.date.toString();
+	//var date = req.params.date.toString();
+	var date = Date().now();
+	//if(date.length==8 && util.isNumber(date)){
+	//	var YYYY = date.substr(0, 4);
+	//	var MM = date.substr(4, 2);
+	//	var DD = date.substr(6, 2);
 
-	if(date.length==8 && util.isNumber(date)){
-		var YYYY = date.substr(0, 4);
-		var MM = date.substr(4, 2);
-		var DD = date.substr(6, 2);
-
-		Race.findByIdAndUpdate(
-			{_id: req.params.id},
-			{endDate: new Date(YYYY, MM-1, DD)},
-			{safe: true, upsert: true},
-			function(err, data) {
-				if(err) return handleError(req, res, 500, err); 
-				else res.status(200).json(data);
-			}
-		);
-	}else res.status(406).send(date+' does not qualify the ISO 1861 standard (YYYYMMDD)');
+	Race.findByIdAndUpdate(
+		{_id: req.params.id},
+		{endDate: date},
+		//{endDate: new Date(YYYY, MM-1, DD)},
+		{safe: true, upsert: true},
+		function(err, data) {
+			if(err) return handleError(req, res, 500, err); 
+			else res.status(200).json(data);
+		}
+	);
+	//}else res.status(406).send(date+' does not qualify the ISO 1861 standard (YYYYMMDD)');
 }
 
 function addRacePub(req, res){

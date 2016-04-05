@@ -13,8 +13,8 @@ function init(mongoose){
 	var data = new Race({
 		name: {type: String, required: true},
 		authorId: {type: String, required: true},
-	    startDate: {type: Date, default: tomorrow, required: true},
-	    endDate: {type: Date, default: dayAfterTomorrow, required: true},
+	    startDate: {type: Date, required: false},
+	    endDate: {type: Date, required: false},
 		pubs: [{ // pubs, ids are from the google API, TODO: use Pub model
 			id: {type: String, required: true},
 			name: String
