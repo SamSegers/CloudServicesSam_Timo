@@ -130,7 +130,7 @@ function removeRace(req, res){
 		{_id: req.params.id},
 		function(err, data){
 			if(err){ return handleError(req, res, 500, err); }
-			res.status(200).send('race successful removed');
+			res.status(200).send('race successfully removed');
 		}
 	);
 }
