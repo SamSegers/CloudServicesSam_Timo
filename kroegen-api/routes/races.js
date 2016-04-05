@@ -22,6 +22,13 @@ function getRaces(req, res){
 	});
 }
 
+function getUsers(req, res){
+	User.find({'race.id': req.params.id}, function(err, data){
+		if(err){ return handleError(req, res, 500, err); }
+		else res.status(200).json(data);
+	});
+}
+
 // POST
 
 function addRace(req, res){
@@ -35,49 +42,20 @@ function addRace(req, res){
 			});
 			race.save(function(err, savedRace){
 				if(err){ return handleError(req, res, 500, err); }
-				else {
-					res.status(201).json(savedRace);
+				else{
+					User.findByIdAndUpdate(
+						{_id: req.user.id},
+						{$push: {race: {id: savedRace.id, tagged: []}}},
+						{safe: true, upsert: true},
+						function(err, data) {
+							if(err) return handleError(req, res, 500, err); 
+							else res.status(201).json(savedRace);
+						}
+					);
 				}
 			});
 		}else res.status(409).send('race name already in use');
 	});
-}
-
-function updateRaceStartDate(req, res){
-	//var date = req.params.date.toString();
-	var date = Date.now();
-	console.log(date);
-
-	Race.findByIdAndUpdate(
-		{_id: req.params.id},
-		{startDate: date},
-		{safe: true, upsert: true},
-		function(err, data) {
-			if(err) return handleError(req, res, 500, err); 
-			else res.status(200).json(data);
-		}
-	);
-}
-
-function updateRaceEndDate(req, res){
-	//var date = req.params.date.toString();
-	var date = Date.now();
-	//if(date.length==8 && util.isNumber(date)){
-	//	var YYYY = date.substr(0, 4);
-	//	var MM = date.substr(4, 2);
-	//	var DD = date.substr(6, 2);
-
-	Race.findByIdAndUpdate(
-		{_id: req.params.id},
-		{endDate: date},
-		//{endDate: new Date(YYYY, MM-1, DD)},
-		{safe: true, upsert: true},
-		function(err, data) {
-			if(err) return handleError(req, res, 500, err); 
-			else res.status(200).json(data);
-		}
-	);
-	//}else res.status(406).send(date+' does not qualify the ISO 1861 standard (YYYYMMDD)');
 }
 
 // PUT
@@ -120,6 +98,67 @@ function addRacePub(req, res){
 	);
 }
 
+function joinRace(req, res){
+	User.findByIdAndUpdate(
+		{_id: req.user.id},
+		{$push: {race: {id: req.params.id, tagged: []}}},
+		{safe: true, upsert: true},
+		function(err, data) {
+			if(err) return handleError(req, res, 500, err); 
+			else res.status(201).json(data);
+		}
+	);
+}
+
+function leaveRace(req, res){
+	User.findByIdAndUpdate(
+		{_id: req.user.id},
+		{$pullall: {race: {id: req.params.id}}},
+		{safe: true, upsert: true},
+		function(err, data) {
+			if(err) return handleError(req, res, 500, err); 
+			else res.status(201).json(data);
+		}
+	);
+}
+
+function updateRaceStartDate(req, res){
+	//var date = req.params.date.toString();
+	var date = Date.now();
+	console.log(date);
+
+	Race.findByIdAndUpdate(
+		{_id: req.params.id},
+		{startDate: date},
+		{safe: true, upsert: true},
+		function(err, data) {
+			if(err) return handleError(req, res, 500, err); 
+			else res.status(200).json(data);
+		}
+	);
+}
+
+function updateRaceEndDate(req, res){
+	//var date = req.params.date.toString();
+	var date = Date.now();
+	//if(date.length==8 && util.isNumber(date)){
+	//	var YYYY = date.substr(0, 4);
+	//	var MM = date.substr(4, 2);
+	//	var DD = date.substr(6, 2);
+
+	Race.findByIdAndUpdate(
+		{_id: req.params.id},
+		{endDate: date},
+		//{endDate: new Date(YYYY, MM-1, DD)},
+		{safe: true, upsert: true},
+		function(err, data) {
+			if(err) return handleError(req, res, 500, err); 
+			else res.status(200).json(data);
+		}
+	);
+	//}else res.status(406).send(date+' does not qualify the ISO 1861 standard (YYYYMMDD)');
+}
+
 // DELETE
 
 function removeRace(req, res){
@@ -141,6 +180,15 @@ router.route('/:id')
 router.route('/:id/update') //TODO :name inside the body of the request rathen than as a parameter
 	.put(util.isAuthenticated, updateRace);
 
+router.route('/:id/users')
+	.get(getUsers)
+
+router.route('/:id/join')
+	.put(util.isAuthenticated, joinRace)
+
+router.route('/:id/leave')
+	.put(util.isAuthenticated, leaveRace)
+
 router.route('/new/:name')
 	.post(util.isAuthenticated, addRace)
 
@@ -148,10 +196,10 @@ router.route('/:id/name/:name')
 	.put(util.isAuthenticated, updateRaceName)
 
 router.route('/:id/start')
-	.post(util.isAuthenticated, updateRaceStartDate)
+	.put(util.isAuthenticated, updateRaceStartDate)
 
 router.route('/:id/end')
-	.post(util.isAuthenticated, updateRaceEndDate)
+	.put(util.isAuthenticated, updateRaceEndDate)
 
 router.route('/:id/pub/:pubId/name/:pubName')
 	.put(util.isAuthenticated, addRacePub)

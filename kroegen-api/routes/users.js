@@ -15,8 +15,7 @@ function getUsers(req, res){
 		if(err) return handleError(req, res, 500, err);
 
 		if(req.params.id) data = data[0];
-		res.json(data);
-		res.status(201);
+		res.status(201).json(data);
 	});
 }
 
