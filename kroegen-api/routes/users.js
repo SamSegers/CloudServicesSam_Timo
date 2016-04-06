@@ -158,6 +158,36 @@ function getRacesCreated(req, res){
 	});
 }
 
+function tagPub(req, res){
+	User.update(
+		{
+			_id: req.user.id,
+			'race.id': req.params.raceId
+		},
+		{$addToSet: {'race.$.tagged': req.params.pubId}},
+		{safe: true, upsert: true},
+		function(err, data) {
+			if(err) res.status(400).json(err); 		
+			else res.status(200).json(data);
+		}
+	);
+}
+
+function untagPub(req, res){
+	User.update(
+		{
+			_id: req.user.id,
+			'race.id': req.params.raceId
+		},
+		{$pull: {'race.$.tagged': req.params.pubId}},
+		{safe: true, upsert: true},
+		function(err, data) {
+			if(err) res.status(400).json(err); 		
+			else res.status(200).json(data);
+		}
+	);
+}
+
 router.route('/').get(getUsers);
 
 router.route('/pubs')
@@ -194,6 +224,12 @@ router.route('/:id/country/:country')
 
 router.route('/:id/birthdate/:birthdate')
 	.put(updateBirthdate);
+
+router.route('/race/:raceId/pub/:pubId/tag')
+	.put(util.isAuthenticated, tagPub)
+
+router.route('/race/:raceId/pub/:pubId/untag')
+	.put(util.isAuthenticated, untagPub)
 
 //TODO races tagging
 
