@@ -159,12 +159,13 @@ function getRacesCreated(req, res){
 }
 
 function tagPub(req, res){
+	//console.log(req.params.raceId);
 	User.update(
 		{
 			_id: req.user.id,
 			'race.id': req.params.raceId
 		},
-		{$addToSet: {'race.$.tagged': req.params.pubId}},
+		{'$push': {'race.$.tagged': req.params.pubId}},
 		{safe: true, upsert: true},
 		function(err, data) {
 			if(err) res.status(400).json(err); 		
