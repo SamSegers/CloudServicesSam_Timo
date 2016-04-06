@@ -60,6 +60,7 @@ router.post('/login', function(req, res, next){
 	console.log(req.session);
 });
 
+//TODO figure out if this should be POST or if /login and /signup should be GET
 router.get('/logout', function(req, res) {
     req.logout();
 	res.status(200).send('signed out');
