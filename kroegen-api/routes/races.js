@@ -113,9 +113,10 @@ function joinRace(req, res){
 function leaveRace(req, res){
 	User.findByIdAndUpdate(
 		{_id: req.user.id},
-		{$pullall: {race: {id: req.params.id}}},
+		{$pull: {race: {id: req.params.id}}},
 		{safe: true, upsert: true},
 		function(err, data) {
+			console.log(err);
 			if(err) return handleError(req, res, 500, err); 
 			else res.status(201).json(data);
 		}
