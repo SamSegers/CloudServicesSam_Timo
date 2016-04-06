@@ -55,7 +55,7 @@ router.post('/login', function(req, res, next){
 	req.session.user = req.user;
 	req.session.save(function (err) {
 		if (err) return res.send('an error occured');
-		return res.send('authorized');
+		return res.json(req.user); //res.send('authorized');
 	});
 	console.log(req.session);
 });
