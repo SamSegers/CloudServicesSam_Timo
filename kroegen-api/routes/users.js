@@ -8,6 +8,7 @@ var handleError;
 function getUsers(req, res){
 	var query = {};
 	if(req.params.id) query._id = req.params.id;
+	if(req.params.name) query.username = req.params.name;
 
 	var result = User.find(query);
 
@@ -41,8 +42,12 @@ function addUser(req, res){
 }
 
 function updateUsername(req, res){
-	User.findByIdAndUpdate(
-		{_id: req.params.id},
+	var query = {};
+	if(req.params.id) query._id = req.params.id;
+	if(req.params.name) query.username = req.params.name;
+
+	User.update(
+		query,
 		{username: req.params.username},
 		{safe: true, upsert: true},
 		function(err, data) {
@@ -56,8 +61,12 @@ function updateUsername(req, res){
 }
 
 function updateFirstname(req, res){
-	User.findByIdAndUpdate(
-		{_id: req.params.id},
+	var query = {};
+	if(req.params.id) query._id = req.params.id;
+	if(req.params.name) query.username = req.params.name;
+
+	User.update(
+		query,
 		{firstname: req.params.firstname},
 		{safe: true, upsert: true},
 		function(err, data) {
@@ -71,8 +80,12 @@ function updateFirstname(req, res){
 }
 
 function updateLastname(req, res){
-	User.findByIdAndUpdate(
-		{_id: req.params.id},
+	var query = {};
+	if(req.params.id) query._id = req.params.id;
+	if(req.params.name) query.username = req.params.name;
+
+	User.update(
+		query,
 		{lastname: req.params.lastname},
 		{safe: true, upsert: true},
 		function(err, data) {
@@ -86,8 +99,12 @@ function updateLastname(req, res){
 }
 
 function updateCountry(req, res){
-	User.findByIdAndUpdate(
-		{_id: req.params.id},
+	var query = {};
+	if(req.params.id) query._id = req.params.id;
+	if(req.params.name) query.username = req.params.name;
+
+	User.update(
+		query,
 		{country: req.params.country},
 		{safe: true, upsert: true},
 		function(err, data) {
@@ -101,8 +118,12 @@ function updateCountry(req, res){
 }
 
 function updateBirthdate(req, res){
-	User.findByIdAndUpdate(
-		{_id: req.params.id},
+	var query = {};
+	if(req.params.id) query._id = req.params.id;
+	if(req.params.name) query.username = req.params.name;
+
+	User.update(
+		query,
 		{birthdate: req.params.birthdate},
 		{safe: true, upsert: true},
 		function(err, data) {
@@ -116,8 +137,12 @@ function updateBirthdate(req, res){
 }
 
 function removeUser(req, res){
+	var query = {};
+	if(req.params.id) query._id = req.params.id;
+	if(req.params.name) query.username = req.params.name;
+
 	User.remove(
-		{_id: req.params.id},
+		query,
 		function(err, data){
 			if(err){ return handleError(req, res, 500, err); }
 			res.status(200).send('user successful removed');
@@ -126,16 +151,24 @@ function removeUser(req, res){
 }
 
 function getPubs(req, res){
-	User.findOne({_id: req.user.id}, {_id: 0, pub: 1}, function(err, data){
+	var query = {};
+	if(req.params.id) query._id = req.params.id;
+	if(req.params.name) query.username = req.params.name;
+
+	User.findOne(query, {_id: 0, pub: 1}, function(err, data){
 		if(err) res.status(400).json(err); 		
 		else res.status(200).json(data);
 	});
 }
 
 function addPub(req, res){
+	var pubObj = {};
+	if(req.params.pubId) pubObj.id = req.params.pubId;
+	if(req.params.pubName) pubObj.name = req.params.pubName;
+
 	User.findByIdAndUpdate(
 		req.user.id,
-		{$push: {'pub': {'id': req.params.pubId, 'name': req.params.pubName}}},
+		{$push: {'pub': pubObj}},
 		{safe: true, upsert: true},
 		function(err, data) {
 			if(err) res.status(400).send(err);
@@ -159,13 +192,21 @@ function getRacesCreated(req, res){
 }
 
 function tagPub(req, res){
-	//console.log(req.params.raceId);
+	var raceObj;
+	if(req.params.raceId) raceObj = {'race.id': req.params.raceId};
+	else if(req.params.raceName) raceObj = {'race.name': req.params.raceName};
+
+	var pubVal;
+	if(req.params.pubId) pubVal = req.params.pubId;
+	else if(req.params.pubName) pubVal = req.params.pubName;
+
 	User.update(
 		{
 			_id: req.user.id,
-			'race.id': req.params.raceId
+			raceObj
+			//'race.id': req.params.raceId
 		},
-		{'$push': {'race.$.tagged': req.params.pubId}},
+		{'$push': {'race.$.tagged': pubVal}},
 		{safe: true, upsert: true},
 		function(err, data) {
 			if(err) res.status(400).json(err); 		
@@ -175,12 +216,20 @@ function tagPub(req, res){
 }
 
 function untagPub(req, res){
+	var raceObj;
+	if(req.params.raceId) raceObj = {'race.id': req.params.raceId};
+	else if(req.params.raceName) raceObj = {'race.name': req.params.raceName};
+
+	var pubVal;
+	if(req.params.pubId) pubVal = req.params.pubId;
+	else if(req.params.pubName) pubVal = req.params.pubName;
+
 	User.update(
 		{
 			_id: req.user.id,
-			'race.id': req.params.raceId
+			raceObj
 		},
-		{$pull: {'race.$.tagged': req.params.pubId}},
+		{$pull: {'race.$.tagged': pubVal}},
 		{safe: true, upsert: true},
 		function(err, data) {
 			if(err) res.status(400).json(err); 		
@@ -232,7 +281,30 @@ router.route('/race/:raceId/pub/:pubId/tag')
 router.route('/race/:raceId/pub/:pubId/untag')
 	.put(util.isAuthenticated, untagPub)
 
-//TODO races tagging
+router.route('/name/:name')
+	.get(getUsers)
+	.delete(removeUser);
+
+router.route('/name/:name/username/:username')
+	.put(updateUsername)
+
+router.route('/name/:name/firstname/:firstname')
+	.put(updateFirstname)
+
+router.route('/name/:name/lastname/:lastname')
+	.put(updateLastname)
+
+router.route('/name/:name/country/:country')
+	.put(updateCountry)
+
+router.route('/name/:name/birthdate/:birthdate')
+	.put(updateBirthdate);
+
+router.route('/race/name/:raceName/pub/name/:pubName/tag')
+	.put(util.isAuthenticated, tagPub)
+
+router.route('/race/name/:raceName/pub/name/:pubName/untag')
+	.put(util.isAuthenticated, untagPub)
 
 module.exports = function (mongoose, errCallback){
 	console.log('Initializing users routing module');
