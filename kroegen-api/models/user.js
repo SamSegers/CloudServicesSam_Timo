@@ -11,12 +11,12 @@ function init(mongoose){
 		birthdate: {type: Date, default: Date.now},
 		country: {type: String, default: 'NL'},
 		pub: [{
-			id: {type: String, required: true},
+			id: String,
 			name: String,
 		}],
 		race: [{
-			id: {type: String, required: true}, 
-			name: {type: String}, 
+			id: String, 
+			name: String, 
 			tagged: [String]// get waypoints from the race id, add id as a tag
 		}]
 	});

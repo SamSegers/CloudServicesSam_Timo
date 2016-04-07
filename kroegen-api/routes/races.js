@@ -105,9 +105,13 @@ function addRacePub(req, res){
 	if(req.params.id) query._id = req.params.id;
 	else if(req.params.name) query.name = req.params.name;	
 
+	var pubObj = {};
+	if(req.params.pubId) pubObj.id = req.params.pubId;
+	else if(req.params.pubName) pubObj.name = req.params.pubName;	
+
 	Race.update(
 		query,
-		{$push: {"pubs": {"id": req.params.pubId, "name": req.params.pubName}}},
+		{$push: {"pubs": pubObj}},
 		{safe: true, upsert: true},
 		function(err, data) {
 			res.status(200).json(data);
