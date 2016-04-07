@@ -160,9 +160,8 @@ function updateRaceStartDate(req, res){
 
 	//var date = req.params.date.toString();
 	var date = Date.now();
-	console.log(date);
 
-	Race.findByIdAndUpdate(
+	Race.update(
 		query,
 		{startDate: date},
 		{safe: true, upsert: true},
@@ -185,7 +184,7 @@ function updateRaceEndDate(req, res){
 	//	var MM = date.substr(4, 2);
 	//	var DD = date.substr(6, 2);
 
-	Race.findByIdAndUpdate(
+	Race.update(
 		query,
 		{endDate: date},
 		//{endDate: new Date(YYYY, MM-1, DD)},
