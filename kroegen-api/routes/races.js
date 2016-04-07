@@ -138,8 +138,8 @@ function joinRace(req, res){
 
 function leaveRace(req, res){
 	var raceObj = {};
-	if(req.params.id) query.id = req.params.id;
-	else if(req.params.name) query.name = req.params.name;	
+	if(req.params.id) raceObj.id = req.params.id;
+	else if(req.params.name) raceObj.name = req.params.name;	
 
 	User.findByIdAndUpdate(
 		{_id: req.user.id},
