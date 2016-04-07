@@ -11,6 +11,7 @@ var handleError;
 function getRaces(req, res){
 	var query = {};
 	if(req.params.id) query._id = req.params.id;
+	else if(req.params.name) query.name = req.params.name;	
 
 	var result = Race.find(query);
 
@@ -23,6 +24,10 @@ function getRaces(req, res){
 }
 
 function getUsers(req, res){
+	var query = {};
+	if(req.params.id) query.race.id = req.params.id;
+	else if(req.params.name) query.race.name = req.params.name;	
+
 	User.find({'race.id': req.params.id}, function(err, data){
 		if(err){ return handleError(req, res, 500, err); }
 		else res.status(200).json(data);
@@ -61,8 +66,12 @@ function addRace(req, res){
 // PUT
 
 function updateRace(req, res){
+	var query = {};
+	if(req.params.id) query._id = req.params.id;
+	else if(req.params.name) query.name = req.params.name;	
+
 	Race.findByIdAndUpdate(
-		{_id: req.params.id},
+		query,
 		{
 			name: req.body.name,
 			pubs: req.body.pubs
@@ -76,8 +85,12 @@ function updateRace(req, res){
 }
 
 function updateRaceName(req, res){
+	var query = {};
+	if(req.params.id) query._id = req.params.id;
+	else if(req.params.oldName) query.name = req.params.oldName;	
+
 	Race.findByIdAndUpdate(
-		{_id: req.params.id},
+		query,
 		{name: req.params.name},
 		{safe: true, upsert: true},
 		function(err, data) {
@@ -88,8 +101,12 @@ function updateRaceName(req, res){
 }
 
 function addRacePub(req, res){
-	Race.findByIdAndUpdate(
-		req.params.id,
+	var query = {};
+	if(req.params.id) query._id = req.params.id;
+	else if(req.params.name) query.name = req.params.name;	
+
+	Race.update(
+		query,
 		{$push: {"pubs": {"id": req.params.pubId, "name": req.params.pubName}}},
 		{safe: true, upsert: true},
 		function(err, data) {
@@ -99,9 +116,14 @@ function addRacePub(req, res){
 }
 
 function joinRace(req, res){
+	var raceObj = {};
+	if(req.params.id) query.id = req.params.id;
+	else if(req.params.name) query.name = req.params.name;	
+	raceObj.tagged = [];
+
 	User.findByIdAndUpdate(
 		{_id: req.user.id},
-		{$push: {race: {id: req.params.id, tagged: []}}},
+		{$push: {race: raceObj}},
 		{safe: true, upsert: true},
 		function(err, data) {
 			if(err) return handleError(req, res, 500, err); 
@@ -111,9 +133,13 @@ function joinRace(req, res){
 }
 
 function leaveRace(req, res){
+	var raceObj = {};
+	if(req.params.id) query.id = req.params.id;
+	else if(req.params.name) query.name = req.params.name;	
+
 	User.findByIdAndUpdate(
 		{_id: req.user.id},
-		{$pull: {race: {id: req.params.id}}},
+		{$pull: {race: raceObj}},
 		{safe: true, upsert: true},
 		function(err, data) {
 			console.log(err);
@@ -124,12 +150,16 @@ function leaveRace(req, res){
 }
 
 function updateRaceStartDate(req, res){
+	var query = {};
+	if(req.params.id) query._id = req.params.id;
+	else if(req.params.name) query.name = req.params.name;	
+
 	//var date = req.params.date.toString();
 	var date = Date.now();
 	console.log(date);
 
 	Race.findByIdAndUpdate(
-		{_id: req.params.id},
+		query,
 		{startDate: date},
 		{safe: true, upsert: true},
 		function(err, data) {
@@ -140,6 +170,10 @@ function updateRaceStartDate(req, res){
 }
 
 function updateRaceEndDate(req, res){
+	var query = {};
+	if(req.params.id) query._id = req.params.id;
+	else if(req.params.name) query.name = req.params.name;	
+
 	//var date = req.params.date.toString();
 	var date = Date.now();
 	//if(date.length==8 && util.isNumber(date)){
@@ -148,7 +182,7 @@ function updateRaceEndDate(req, res){
 	//	var DD = date.substr(6, 2);
 
 	Race.findByIdAndUpdate(
-		{_id: req.params.id},
+		query,
 		{endDate: date},
 		//{endDate: new Date(YYYY, MM-1, DD)},
 		{safe: true, upsert: true},
@@ -163,8 +197,12 @@ function updateRaceEndDate(req, res){
 // DELETE
 
 function removeRace(req, res){
+	var query = {};
+	if(req.params.id) query._id = req.params.id;
+	else if(req.params.name) query.name = req.params.name;	
+
 	Race.remove(
-		{_id: req.params.id},
+		query,
 		function(err, data){
 			if(err){ return handleError(req, res, 500, err); }
 			res.status(200).send('race successfully removed');
@@ -178,7 +216,7 @@ router.route('/:id')
 	.get(getRaces)
 	.delete(util.isAuthenticated, removeRace);
 
-router.route('/:id/update') //TODO :name inside the body of the request rathen than as a parameter
+router.route('/:id/update')
 	.put(util.isAuthenticated, updateRace);
 
 router.route('/:id/users')
@@ -190,9 +228,6 @@ router.route('/:id/join')
 router.route('/:id/leave')
 	.put(util.isAuthenticated, leaveRace)
 
-router.route('/new/:name')
-	.post(util.isAuthenticated, addRace)
-
 router.route('/:id/name/:name')
 	.put(util.isAuthenticated, updateRaceName)
 
@@ -203,6 +238,37 @@ router.route('/:id/end')
 	.put(util.isAuthenticated, updateRaceEndDate)
 
 router.route('/:id/pub/:pubId/name/:pubName')
+	.put(util.isAuthenticated, addRacePub)
+
+router.route('/name/:name')
+	.get(getRaces)
+	.delete(util.isAuthenticated, removeRace);
+
+router.route('/new/:name')
+	.post(util.isAuthenticated, addRace)
+
+router.route('/name/:name/update')
+	.put(util.isAuthenticated, updateRace);
+
+router.route('/name/:name/users')
+	.get(getUsers)
+
+router.route('/name/:name/join') 
+	.put(util.isAuthenticated, joinRace)
+
+router.route('/name/:name/leave')
+	.put(util.isAuthenticated, leaveRace)
+
+router.route('/name/:oldName/name/:name')
+	.put(util.isAuthenticated, updateRaceName)
+
+router.route('/name/:name/start') 
+	.put(util.isAuthenticated, updateRaceStartDate)
+
+router.route('/name/:name/end')
+	.put(util.isAuthenticated, updateRaceEndDate)
+
+router.route('/name/:name/pub/:pubName')
 	.put(util.isAuthenticated, addRacePub)
 
 module.exports = function (mongoose, errCallback){

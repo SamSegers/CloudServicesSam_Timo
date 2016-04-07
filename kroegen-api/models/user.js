@@ -16,6 +16,7 @@ function init(mongoose){
 		}],
 		race: [{
 			id: {type: String, required: true}, 
+			name: {type: String}, 
 			tagged: [String]// get waypoints from the race id, add id as a tag
 		}]
 	});

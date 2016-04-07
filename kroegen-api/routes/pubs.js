@@ -11,8 +11,8 @@ function getPubs(req, res){
 		headers: {
 			'Content-Type': 'application/json; charset=utf-8',
 		},
-	}, function(error, response, body){
-		if(error) console.log(error);
+	}, function(err, response, body){
+		if(err) res.status(400).json(err);
 		else res.status(200).send(body);
 	});
 }
@@ -27,8 +27,8 @@ function getPub(req, res){
 			headers: {
 				'Content-Type': 'application/json; charset=utf-8',
 			},
-		}, function(error, response, body){
-			if(error) console.log(error);
+		}, function(err, response, body){
+			if(err) res.status(400).json(err);
 			else res.status(200).send(body);
 		});
 	}
