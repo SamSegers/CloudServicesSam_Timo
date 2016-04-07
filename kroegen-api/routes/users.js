@@ -238,6 +238,31 @@ function untagPub(req, res){
 	);
 }
 
+function getTags(req, res){
+	var query = {};
+	query._id = req.user.id;
+	if(req.params.raceId) query['race.id'] = req.params.raceId;
+	else if(req.params.raceName) query['race.name'] = req.params.raceName;
+
+	User.find(
+		query,
+		//{_id: 0, race: 0, 'race.$.tagged': 1},
+		function(err, data){
+			if(err) res.status(400).json(err); 		
+			else{
+				var tags = [];
+				data = data[0].race;
+				data.forEach(function(entry){
+					if(req.params.raceId && entry.id==req.params.raceId
+					|| req.params.raceName && entry.name==req.params.raceName)
+						tags = entry.tagged;	
+				});
+				res.status(200).json(tags);
+			}
+		}
+	);
+}
+
 router.route('/').get(getUsers);
 
 router.route('/pubs')
@@ -281,6 +306,9 @@ router.route('/race/:raceId/pub/:pubId/tag')
 router.route('/race/:raceId/pub/:pubId/untag')
 	.put(util.isAuthenticated, untagPub)
 
+router.route('/race/:raceId/tags')
+	.get(getTags)
+
 router.route('/name/:name')
 	.get(getUsers)
 	.delete(removeUser);
@@ -305,6 +333,9 @@ router.route('/race/name/:raceName/pub/name/:pubName/tag')
 
 router.route('/race/name/:raceName/pub/name/:pubName/untag')
 	.put(util.isAuthenticated, untagPub)
+
+router.route('/race/name/:raceName/tags')
+	.get(util.isAuthenticated, getTags)
 
 module.exports = function (mongoose, errCallback){
 	console.log('Initializing users routing module');

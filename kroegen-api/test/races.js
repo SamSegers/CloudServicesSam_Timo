@@ -20,7 +20,7 @@ function makeRequest(route, statusCode, done){
 describe('testing races route', function(){
 	describe('without params', function(){
 		it('should return races', function(done){
-			makeRequest('/races/', 200, function(err, res){
+			makeRequest('/', 200, function(err, res){
 				if(err){ return done(err); }
 
 				console.log(res.body);

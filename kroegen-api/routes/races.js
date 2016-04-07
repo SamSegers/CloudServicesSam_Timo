@@ -25,10 +25,10 @@ function getRaces(req, res){
 
 function getUsers(req, res){
 	var query = {};
-	if(req.params.id) query.race.id = req.params.id;
-	else if(req.params.name) query.race.name = req.params.name;	
+	if(req.params.id) query['race.id'] = req.params.id;
+	else if(req.params.name) query['race.name'] = req.params.name;	
 
-	User.find({'race.id': req.params.id}, function(err, data){
+	User.find(query, function(err, data){
 		if(err){ return handleError(req, res, 500, err); }
 		else res.status(200).json(data);
 	});
