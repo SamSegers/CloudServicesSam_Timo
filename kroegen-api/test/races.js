@@ -4,7 +4,7 @@ var should = require('chai').should();
 
 var app = require('express')();
 var races = require('../routes/races');
-app.use('/', races);
+//app.use('/', races);
 
 function makeRequest(route, statusCode, done){
 	request(app)
@@ -20,7 +20,7 @@ function makeRequest(route, statusCode, done){
 describe('testing races route', function(){
 	describe('without params', function(){
 		it('should return races', function(done){
-			makeRequest('/', 200, function(err, res){
+			makeRequest('/races', 200, function(err, res){
 				if(err){ return done(err); }
 
 				console.log(res.body);

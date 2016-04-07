@@ -121,8 +121,8 @@ function addRacePub(req, res){
 
 function joinRace(req, res){
 	var raceObj = {};
-	if(req.params.id) query.id = req.params.id;
-	else if(req.params.name) query.name = req.params.name;	
+	if(req.params.id) raceObj.id = req.params.id;
+	else if(req.params.name) raceObj.name = req.params.name;	
 	raceObj.tagged = [];
 
 	User.findByIdAndUpdate(

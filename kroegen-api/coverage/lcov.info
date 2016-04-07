@@ -26,7 +26,7 @@ FN:202,removeRace
 FN:209,(anonymous_24)
 FN:277,(anonymous_25)
 FNF:25
-FNH:1
+FNH:0
 FNDA:0,getRaces
 FNDA:0,(anonymous_2)
 FNDA:0,getUsers
@@ -51,7 +51,7 @@ FNDA:0,updateRaceEndDate
 FNDA:0,(anonymous_22)
 FNDA:0,removeRace
 FNDA:0,(anonymous_24)
-FNDA:1,(anonymous_25)
+FNDA:0,(anonymous_25)
 DA:1,1
 DA:2,1
 DA:3,1
@@ -169,13 +169,13 @@ DA:268,1
 DA:271,1
 DA:274,1
 DA:277,1
-DA:278,1
-DA:279,1
+DA:278,0
+DA:279,0
 DA:280,0
 DA:281,0
 DA:282,0
 LF:122
-LH:41
+LH:39
 BRDA:13,1,0,0
 BRDA:13,1,1,0
 BRDA:14,2,0,0
