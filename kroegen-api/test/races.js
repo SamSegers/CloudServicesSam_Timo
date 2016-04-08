@@ -28,13 +28,13 @@ function handleError(req, res, statusCode, message){
     res.json(message);
 };
 
-var app = express();
-var races = require('../routes/races')(mongoose, handleError);;
-app.use('/', races);
-
 require('../models/race')(mongoose);
 require('../models/user')(mongoose);
 require('../models/fillTestData')(mongoose);
+
+var app = express();
+var races = require('../routes/races')(mongoose, handleError);;
+app.use('/', races);
 
 function makeRequest(route, statusCode, done){
 	request(app)
@@ -84,3 +84,36 @@ describe('testing races route', function(){
 	});*/
 });
 
+// catch 404 and forward to error handler
+app.use(function(req, res, next) {
+  var err = new Error('Not Found');
+  err.status = 404;
+  next(err);
+});
+
+// error handlers
+
+// development error handler
+// will print stacktrace
+if (app.get('env') === 'development') {
+  app.use(function(err, req, res, next) {
+    res.status(err.status || 500);
+    res.render('error', {
+      message: err.message,
+      error: err
+    });
+  });
+}
+
+// production error handler
+// no stacktraces leaked to user
+app.use(function(err, req, res, next) {
+  res.status(err.status || 500);
+  res.render('error', {
+    message: err.message,
+    error: {}
+  });
+});
+
+
+module.exports = app;
