@@ -3,6 +3,8 @@ var expect = require('chai').expect;
 var should = require('chai').should();
 var mongoose = require('mongoose');
 
+mongoose.connect('mongodb://localhost:27017/pubcrawl');
+
 function handleError(req, res, statusCode, message){
     console.log();
     console.log('-------- Error handled --------');
