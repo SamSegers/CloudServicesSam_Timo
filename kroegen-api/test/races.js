@@ -1,7 +1,19 @@
 var request = require('supertest');
 var expect = require('chai').expect;
 var should = require('chai').should();
+var express = require('express');
+var path = require('path');
+var favicon = require('serve-favicon');
+var logger = require('morgan');
+var cookieParser = require('cookie-parser');
+var bodyParser = require('body-parser');
 var mongoose = require('mongoose');
+var passport = require('passport');
+var session = require('express-session');
+var flash = require('connect-flash');
+var LocalStrategy = require('passport-local').Strategy;
+
+var util = require('../util/index');
 
 mongoose.connect('mongodb://localhost:27017/pubcrawl');
 
@@ -16,7 +28,7 @@ function handleError(req, res, statusCode, message){
     res.json(message);
 };
 
-var app = require('express')();
+var app = express();
 var races = require('../routes/races')(mongoose, handleError);;
 app.use('/', races);
 

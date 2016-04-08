@@ -1,4 +1,23 @@
 TN:
+SF:C:\Users\admin\Documents\avans\blok 11\cloud\CloudServicesSam_Timo\kroegen-api\util\index.js
+FN:2,(anonymous_1)
+FN:6,(anonymous_2)
+FNF:2
+FNH:0
+FNDA:0,(anonymous_1)
+FNDA:0,(anonymous_2)
+DA:1,1
+DA:3,0
+DA:8,0
+DA:9,0
+LF:4
+LH:1
+BRDA:8,1,0,0
+BRDA:8,1,1,0
+BRF:2
+BRH:0
+end_of_record
+TN:
 SF:C:\Users\admin\Documents\avans\blok 11\cloud\CloudServicesSam_Timo\kroegen-api\routes\races.js
 FN:11,getRaces
 FN:18,(anonymous_2)
@@ -247,24 +266,5 @@ BRDA:205,34,1,0
 BRDA:210,35,0,0
 BRDA:210,35,1,0
 BRF:70
-BRH:0
-end_of_record
-TN:
-SF:C:\Users\admin\Documents\avans\blok 11\cloud\CloudServicesSam_Timo\kroegen-api\util\index.js
-FN:2,(anonymous_1)
-FN:6,(anonymous_2)
-FNF:2
-FNH:0
-FNDA:0,(anonymous_1)
-FNDA:0,(anonymous_2)
-DA:1,1
-DA:3,0
-DA:8,0
-DA:9,0
-LF:4
-LH:1
-BRDA:8,1,0,0
-BRDA:8,1,1,0
-BRF:2
 BRH:0
 end_of_record

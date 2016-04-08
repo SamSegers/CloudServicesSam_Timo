@@ -192,7 +192,7 @@ function getRacesCreated(req, res){
 }
 
 function tagPub(req, res){
-	var query;
+	var query = {};
 	query._id = req.user.id;
 	if(req.params.raceId) query['race.id'] = req.params.raceId;
 	else if(req.params.raceName) query['race.name'] = req.params.raceName;
@@ -213,7 +213,7 @@ function tagPub(req, res){
 }
 
 function untagPub(req, res){
-	var query;
+	var query = {};
 	query._id = req.user.id;
 	if(req.params.raceId) query['race.id'] = req.params.raceId;
 	else if(req.params.raceName) query['race.name'] = req.params.raceName;
