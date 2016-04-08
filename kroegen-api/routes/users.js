@@ -192,20 +192,21 @@ function getRacesCreated(req, res){
 }
 
 function tagPub(req, res){
-	var raceObj;
-	if(req.params.raceId) raceObj = {'race.id': req.params.raceId};
-	else if(req.params.raceName) raceObj = {'race.name': req.params.raceName};
+	var query;
+	query._id: req.user.id,
+	if(req.params.raceId) query['race.id'] = req.params.raceId;
+	else if(req.params.raceName) query['race.name'] = req.params.raceName;
 
 	var pubVal;
 	if(req.params.pubId) pubVal = req.params.pubId;
 	else if(req.params.pubName) pubVal = req.params.pubName;
 
 	User.update(
-		{
-			_id: req.user.id,
+		/*{
 			raceObj
 			//'race.id': req.params.raceId
-		},
+		}*/
+		query,
 		{'$push': {'race.$.tagged': pubVal}},
 		{safe: true, upsert: true},
 		function(err, data) {
@@ -216,19 +217,20 @@ function tagPub(req, res){
 }
 
 function untagPub(req, res){
-	var raceObj;
-	if(req.params.raceId) raceObj = {'race.id': req.params.raceId};
-	else if(req.params.raceName) raceObj = {'race.name': req.params.raceName};
+	var query;
+	query._id: req.user.id,
+	if(req.params.raceId) query['race.id'] = req.params.raceId;
+	else if(req.params.raceName) query['race.name'] = req.params.raceName;
 
 	var pubVal;
 	if(req.params.pubId) pubVal = req.params.pubId;
 	else if(req.params.pubName) pubVal = req.params.pubName;
 
 	User.update(
-		{
+		/*{
 			_id: req.user.id,
 			raceObj
-		},
+		}*/query,
 		{$pull: {'race.$.tagged': pubVal}},
 		{safe: true, upsert: true},
 		function(err, data) {

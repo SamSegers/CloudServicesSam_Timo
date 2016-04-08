@@ -1,10 +1,26 @@
 var request = require('supertest');
 var expect = require('chai').expect;
 var should = require('chai').should();
+var mongoose = require('mongoose');
+
+function handleError(req, res, statusCode, message){
+    console.log();
+    console.log('-------- Error handled --------');
+    console.log('Request Params: ' + JSON.stringify(req.params));
+    console.log('Request Body: ' + JSON.stringify(req.body));
+    console.log('Response sent: Statuscode ' + statusCode + ', Message "' + message + '"');
+    console.log('-------- /Error handled --------');
+    res.status(statusCode);
+    res.json(message);
+};
 
 var app = require('express')();
-var races = require('../routes/races');
-//app.use('/', races);
+var races = require('../routes/races')(mongoose, handleError);;
+app.use('/', races);
+
+require('../models/race')(mongoose);
+require('../models/user')(mongoose);
+require('../models/fillTestData')(mongoose);
 
 function makeRequest(route, statusCode, done){
 	request(app)
@@ -20,12 +36,11 @@ function makeRequest(route, statusCode, done){
 describe('testing races route', function(){
 	describe('without params', function(){
 		it('should return races', function(done){
-			makeRequest('/races', 200, function(err, res){
+			makeRequest('/', 200, function(err, res){
 				if(err){ return done(err); }
 
-				console.log(res.body);
-				/*expect(res.body).to.have.property('race');
-				expect(res.body.date).to.not.be.undefined;
+				expect(res.body).to.have.property('race');
+				/*expect(res.body.date).to.not.be.undefined;
 				expect(res.body.date).to.equal(expectedString);*/
 				done();
 			});
