@@ -177,6 +177,23 @@ function addPub(req, res){
 	);
 }
 
+function removePub(req, res){
+	var pub = {};
+
+	if(req.params.pubId) pub.id = req.params.pubId;
+	else if(req.params.pubName) pub.name = req.params.pubName;
+
+	User.findByIdAndUpdate(
+		req.user.id,
+		{$pull: {'pub': pub}},
+		{safe: true, upsert: true},
+		function(err, data) {
+			if(err) res.status(400).json(err); 		
+			else res.status(200).json(data);
+		}
+	);
+}
+
 function getRaces(req, res){
 	User.find({_id: req.user.id}, {_id: 0, race: 1}, function(err, data){
 		if(err) res.status(400).json(err); 		
@@ -265,6 +282,12 @@ router.route('/pubs')
 
 router.route('/pubs/:pubId/name/:pubName')
 	.put(addPub);
+
+router.route('/pubs/:pubId')
+	.delete(removePub);
+
+router.route('/pubs/name/:pubName')
+	.delete(removePub);
 
 router.route('/races')
 	.get(util.isAuthenticated, getRaces);

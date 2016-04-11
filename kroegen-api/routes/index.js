@@ -44,6 +44,11 @@ router.post('/signup', function(req, res) {
     });
 });
 
+router.post('/signup2', function(req, res) {
+	console.log(req.body.username);
+	res.status(200).send('signed up');
+});
+
 router.post('/login', function(req, res, next){
 	User.find({username: req.body.username}, function(err, data){
 		if(data.length==0) res.status(400).send('user does not exist');

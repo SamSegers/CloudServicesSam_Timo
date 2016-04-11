@@ -1,4 +1,4 @@
-var Race, User;
+var Race, User, fill;
 
 function saveCallback(err){
 	if(err){
@@ -17,7 +17,7 @@ function fillTestRace(callback){
 	];
 
 	Race.find({}, function(err, data){
-		if(data.length == 0){ // fill test data
+		if(fill || data.length == 0){ // fill test data
 			console.log('Creating races testdata');
 			
 			testData.forEach(function(race){
@@ -50,7 +50,7 @@ function fillTestUser(callback){
 	];
 
 	User.find({}, function(err, data){
-		if(data.length == 0){ // fill test data
+		if(fill || data.length == 0){ // fill test data
 			console.log('Creating users testdata');
 			
 			testData.forEach(function(user){
@@ -66,6 +66,13 @@ module.exports = function(mongoose){
 	Race = mongoose.model('Race');
 	User = mongoose.model('User');
 
-	fillTestRace();
-	//fillTestRace(fillTestUser);
+	fillTestRace(fillTestUser);
+}
+
+module.exports = function(mongoose, fill){
+	fill = true;
+	Race = mongoose.model('Race');
+	User = mongoose.model('User');
+
+	fillTestRace(fillTestUser);
 }

@@ -30,13 +30,38 @@ function handleError(req, res, statusCode, message){
 
 require('../models/race')(mongoose);
 require('../models/user')(mongoose);
-require('../models/fillTestData')(mongoose);
+require('../models/fillTestData')(mongoose, true);
 
 var app = express();
-var races = require('../routes/races')(mongoose, handleError);;
-app.use('/', races);
+var routes = require('../routes/index');
+var races = require('../routes/races')(mongoose, handleError);
+app.use('/', routes);
 
-function makeRequest(route, statusCode, done){
+// view engine setup
+app.set('views', path.join(__dirname, 'views'));
+app.set('view engine', 'jade');
+
+// uncomment after placing your favicon in /public
+//app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
+app.use(logger('dev')); // log every request to the console
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: false }));
+app.use(cookieParser());
+app.use(express.static(path.join(__dirname, 'public')));
+app.use(session({
+    secret: 'keyboard cat',
+    resave: false,
+    saveUninitialized: false,
+	cookie: {
+		maxAge: 60*60*1000,
+		httpOnly: false
+	}
+}));
+app.use(passport.initialize());
+app.use(passport.session());
+app.use(flash()); // use connect-flash for flash messages stored in session
+
+function makeGetRequest(route, statusCode, done){
 	request(app)
 		.get(route)
 		.expect(statusCode)
@@ -47,19 +72,87 @@ function makeRequest(route, statusCode, done){
 		});
 };
 
+function makePostRequest(route, headers, body, statusCode, done){
+	request(app)
+		/*.post({
+			url: route,
+			form: body
+		})*/
+		//.set('Accept', 'application/json')
+		.post(route)
+		.send(body)
+		//.set(headers)
+		.expect(statusCode)
+		.end(function(err, res){
+			if(err) return done(err);
+
+			done(null, res);
+		});
+};
+
 describe('testing races route', function(){
-	describe('without params', function(){
-		it('should return races', function(done){
-			makeRequest('/', 200, function(err, res){
+	describe('authentication', function(){
+		it('attempt signup', function(done){
+			var data = {username: 'hitchhiker', password: 'password'};
+
+			makePostRequest('/signup2', {
+				/*'Content-Type': 'application/x-www-form-urlencoded',
+				'Content-Length': Buffer.byteLength(data)*/
+			}, data, 200, function(err, res){
 				if(err){ return done(err); }
 
-				expect(res.body).to.have.property('race');
-				/*expect(res.body.date).to.not.be.undefined;
-				expect(res.body.date).to.equal(expectedString);*/
+				//console.log(res.body);
 				done();
 			});
 		});
+
+		/*it('attempt login', function(done){
+			makePostRequest('/login', {username: 'hitchhiker', password: 'password'}, 200, function(err, res){
+				if(err){ return done(err); }
+
+				console.log(res.body);
+				//app.use('/', races);
+				done();
+			});
+		});*/
 	});
+
+	/*describe('without params', function(){
+		it('should return races', function(done){
+			makeGetRequest('/', 200, function(err, res){
+				if(err){ return done(err); }
+
+				console.log(res.body[0]);
+				expect(res.body[0].constructor === Array);
+				//expect(res.body).to.have.property('race');
+				//expect(res.body.date).to.not.be.undefined;
+				//expect(res.body.date).to.equal(expectedString);
+				done();
+			});
+
+			makeRequest('/', 200, function(err, res){
+				if(err){ return done(err); }
+
+				//console.log(res.body[0].name);
+				expect(res.body[0].constructor === Array);
+				//expect(res.body).to.have.property('race');
+				//expect(res.body.date).to.not.be.undefined;
+				//expect(res.body.date).to.equal(expectedString);
+				done();
+			});
+
+			makeRequest('/', 200, function(err, res){
+				if(err){ return done(err); }
+
+				//console.log(res.body[0].name);
+				expect(res.body[0].constructor === Array);
+				//expect(res.body).to.have.property('race');
+				//expect(res.body.date).to.not.be.undefined;
+				//expect(res.body.date).to.equal(expectedString);
+				done();
+			});
+		});
+	});*/
 
 	/*describe('with invalid params', function(){
 		it('should return 400 when date is invalid', function(done){
