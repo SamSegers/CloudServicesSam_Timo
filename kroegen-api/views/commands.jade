@@ -3,219 +3,111 @@ extends layout
 block content
 	p POST
 		/signup 
-  
-block content
 	p POST
 		/login
-  
-block content
 	p GET
 		/pubs
-  
-block content
 	p GET
 		/pubs/:id
-		
-block content
 	p GET
 		/races
-
-block content
 	p GET
 		/races/:id
-		
-block content
 	p DELETE
 		/races/:id
-		
-block content
 	p PUT
 		/races/:id/update
-		
-block content
 	p GET
 		/races/:id/users
-		
-block content
 	p PUT
 		/races/:id/join
-		
-block content
 	p PUT
 		/races/:id/leave
-		
-block content
 	p PUT
 		/races/:id/name/:name
-
-block content
 	p PUT
 		/races/:id/start
-		
-block content
 	p PUT
 		/races/:id/end
-		
-block content
 	p PUT
 		/races/:id/pub/:pubId/name/:pubName
-		
-block content
 	p GET
 		/races/name/:name
-		
-block content
 	p DELETE
 		/races/name/:name
-		
-block content
 	p POST
 		/races/new/:name
-
-block content
 	p PUT
 		/races/name/:name/update
-
-block content
 	p GET
 		/races/name/:name/users	
-
-block content
 	p PUT
 		/races/name/:name/join
-		
-block content
 	p PUT
 		/races/name/:name/leave
-		
-block content
 	p PUT
 		/races/name/:oldName/name/:name
-		
-block content
 	p PUT
 		/name/:name/users	
-		
-block content
 	p PUT
 		/races/name/:name/start
-		
-block content
 	p PUT
 		/races/name/:name/end
-
-block content
 	p PUT
 		/races/name/:name/pub/:pubName
-		
-block content
 	p GET
 		/users
-
-block content
 	p GET
 		/users/pubs
-		
-block content
 	p PUT
 		/users/pubs/:pubId/name/:pubName
-		
-block content
 	p DELETE
 		/users/pubs/:pubId
-		
-block content
 	p DELETE
 		/users/pubs/name/:pubName
-		
-block content
 	p GET
 		/users/races
-		
-block content
 	p GET
 		/users/racescreated
-
-block content
 	p GET
 		/users/:id
-		
-block content
 	p DELETE
 		/users/:id
-		
-block content
 	p POST
 		/users/:username/firstname/:firstname/lastname/:lastname
-		
-block content
 	p PUT
 		/users/:id/username/:username
-
-block content
 	p PUT
 		/users/:id/firstname/:firstname
-		
-block content
 	p PUT
 		/users/:id/lastname/:lastname
-		
-block content
 	p PUT
 		/users/:id/country/:country
-		
-block content
 	p PUT
 		/users/:id/birthdate/:birthdate
-		
-block content
 	p PUT
 		/users/race/:raceId/pub/:pubId/tag
-		
-block content
 	p PUT
 		/users/race/:raceId/pub/:pubId/untag
-		
-block content
 	p GET
 		/users/race/:raceId/tags
-		
-block content
 	p GET
 		/users/name/:name
-		
-block content
 	p DELETE
 		/users/name/:name
-		
-block content
 	p PUT
 		/users/name/:name/username/:username
-
-block content
 	p PUT
 		/users/name/:name/firstname/:firstname
-
-block content
 	p PUT
 		/users/name/:name/lastname/:lastname		
-		
-block content
 	p PUT
 		/users/name/:name/country/:country	
-
-block content
 	p PUT
 		/users/name/:name/birthdate/:birthdate		
-		
-block content
 	p PUT
 		/users/race/name/:raceName/pub/name/:pubName/tag	
-		
-block content
 	p PUT
 		/users/race/name/:raceName/pub/name/:pubName/untag	
-
-block content
 	p GET
 		/users/race/name/:raceName/tags
