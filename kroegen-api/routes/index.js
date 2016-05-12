@@ -34,6 +34,10 @@ router.get('/', function(req, res, next) {
 	res.render('index', { title: 'Express' });
 });
 
+router.get('/commands', function(req, res, next) {
+	res.render('commands', { title: 'Express' });
+});
+
 router.post('/signup', function(req, res) {
     User.register(new User({ username : req.body.username }), req.body.password, function(err, account) {
         if (err) return res.status(400).send(err);
