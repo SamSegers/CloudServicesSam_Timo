@@ -1,7 +1,7 @@
 var express = require('express');
 var router = express.Router();
-var http = require("http");
-var io = require('socket.io');
+var http = require("http").Server(express);
+var io = require('socket.io')(http);
 var url = require('url');
 var passport = require('passport');
 var bodyParser = require('body-parser');
@@ -9,7 +9,7 @@ var mongoose = require('mongoose');
 
 var User = mongoose.model('User'); //User = require('../models/user');
 	
-var server = http.createServer(function(request,response)
+/*var server = http.createServer(function(request,response)
 {
 	var path = url.parse(request.url).pathname;
 	
@@ -20,15 +20,24 @@ var server = http.createServer(function(request,response)
 			response.end();
 			break;
 	}
-});
+});*/
 
 //io.on('connection',function(socket){});
-
-server.listen(3000);
-
-var listener = io.listen(server);
-	listener.sockets.on('connection',function(socket){
+io.on('connection',function(socket){
+	
+	socket.on('disconnect', function(){
+		
+	});
 });
+
+http.listen(3000,function(){
+	
+});
+//server.listen(3000);
+
+//var listener = io.listen(server);
+//	listener.sockets.on('connection',function(socket){
+//});
 
 router.get('/', function(req, res, next) {
 	res.render('index', { title: 'Express' });
