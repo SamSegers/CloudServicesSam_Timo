@@ -223,7 +223,7 @@ router.route('/:id/update')
 	.put(util.isAuthenticated, updateRace);
 
 router.route('/:id/users')
-	.get(getUsers)
+	.get(util.isAuthenticated, getUsers)
 
 router.route('/:id/join')
 	.put(util.isAuthenticated, joinRace)
