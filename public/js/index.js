@@ -1,12 +1,26 @@
-$(function(){
-	$.get('http://localhost:3001/races', function(races){
-		races.forEach(function(race){
-			$('.race-list ul').append(
-				"<li data-id='"+race._id+"' class='row'>"+
-					"<span class='name'>"+race.name+"</span>"+
-					"<span class='author-id'>"+race.authorId+"</span>"+
-				"</li>"
-			);
-		});
+"use strict"
+
+let $signUpForm = $('.sign-up-form');
+let $signInForm = $('.sign-in-form');
+
+$('.sign-up').click(function(){
+	let body = {
+		username: $signUpForm.find('.username').val(),
+		password: $signUpForm.find('.password').val()
+	}
+
+	$.post('http://localhost:3001/signup', body, function(data){
+		console.log(data);
+	});
+});
+
+$('.sign-in').click(function(){
+	let body = {
+		username: $signInForm.find('.username').val(),
+		password: $signInForm.find('.password').val()
+	}
+
+	$.post('http://localhost:3001/login', body, function(data){
+		console.log(data);
 	});
 });

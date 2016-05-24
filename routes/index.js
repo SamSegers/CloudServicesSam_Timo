@@ -7,7 +7,7 @@ var passport = require('passport');
 var bodyParser = require('body-parser');
 var mongoose = require('mongoose');
 
-var User = mongoose.model('User'); //User = require('../models/user');
+var User = mongoose.model('User');
 	
 var server = http.createServer(function(request,response)
 {
@@ -49,11 +49,6 @@ router.post('/signup', function(req, res) {
 			return res.send('signed up');
         });
     });
-});
-
-router.post('/signup2', function(req, res) {
-	console.log(req.body.username);
-	res.status(200).send('signed up');
 });
 
 router.post('/login', function(req, res, next){

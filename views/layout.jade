@@ -3,7 +3,18 @@ html
 	head
 		title= title
 		link(rel='stylesheet', href='/stylesheets/style.css')
+		block styles
 	body
+		section(class='sign-in-form')
+			input(type='text', class='username')
+			input(type='password', class='password')
+			input(type='button', class='sign-in', value='sign in')
+		section(class='sign-up-form')
+			input(type='text', class='username')
+			input(type='password', class='password')
+			input(type='button', class='sign-up', value='sign up')
 		block content
+
 		script(src='https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js')
+		script(src='js/index.js')
 		block scripts
