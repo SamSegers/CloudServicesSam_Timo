@@ -1,4 +1,11 @@
 extends layout
 
 block content
-  p Hello, World! 
+	section(class='race-list')
+		div(class='row header')
+			span(class='name') name
+			span(class='author-id') author id
+		ul
+
+block scripts
+	script(src='/js/index.js')

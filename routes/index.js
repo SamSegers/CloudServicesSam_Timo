@@ -31,7 +31,10 @@ var listener = io.listen(server);
 });
 
 router.get('/', function(req, res, next) {
-	res.render('index', { title: 'Express' });
+	res.render('index', { 
+		title: 'Express',
+		scripts: ['js/index.js']
+	});
 });
 
 router.get('/commands', function(req, res, next) {
