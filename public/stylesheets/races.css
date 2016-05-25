@@ -2,15 +2,16 @@ section.race-list ul{
     list-style-type: none;
 	margin: 0px;
 	padding: 0px;
+	font-size: 0px;
 }
 
 section.race-list .row > span{
-	padding: 10px;
 	display: inline-block;
+	font-size: medium;
 }
 
 section.race-list .row > span.name{
-	width: 300px;
+	width: 400px;
 }
 
 section.race-list .row > span.author-id{

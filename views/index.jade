@@ -1,11 +1,13 @@
 extends layout
 
 block content
-	section(class='race-list')
-		div(class='row header')
-			span(class='name') name
-			span(class='author-id') author id
-		ul
+	div.wrapper.races
+		h2 races
+		section.race-list
+			div.row.header
+				span.name name
+				span.author-id author id
+			ul
 
 block styles
 	link(rel='stylesheet', href='/stylesheets/races.css')

@@ -1,12 +1,73 @@
 body {
-	padding: 50px;
+	padding: 20px;
 	font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
+	-moz-user-select: none; 
+	user-select: none; 
+}
+
+h1{
+	margin: 0px 0px 20px 0px;
 }
 
 a {
 	color: #00B7FF;
 }
 
-section.sign-in-form > *{
+div.wrapper{
+	max-width: 500px;
+	margin: 0px auto;
+}
+
+div.wrapper.authentication{
+	margin-bottom: 15px;
+}
+
+div.wrapper.authentication section{
+	margin-bottom: 5px;
+}
+
+div.wrapper.authentication section.menu span{
+	padding-right: 15px;
+	cursor: pointer;
+}
+
+div.wrapper.authentication section.menu span:hover{
+	color: #636363;
+}
+
+div.wrapper.authentication section.menu span.username,
+div.wrapper.authentication section.menu span.sign-out{
+	display: none;
+} 
+
+div.wrapper.authentication section.form{
+	display: none;
+}
+
+div.wrapper.authentication section.form > div{
 	display: inline-block;
+	font-size: 0px;
+}
+
+div.wrapper.authentication section.form > div > input{
+	font-size: 14px;
+}
+
+div.wrapper.authentication section.form.sign-up > div.username,
+div.wrapper.authentication section.form.sign-up > div.password,
+div.wrapper.authentication section.form.sign-up > div.password-repeat{
+	width: 26.6%;
+}
+
+div.wrapper.authentication section.form.sign-in > div.username,
+div.wrapper.authentication section.form.sign-in > div.password{
+	width: 40%;
+}
+
+div.wrapper.authentication section.form > div.button{
+	width: 20%;
+}
+
+div.wrapper.authentication section.form > div > input{
+	width: 90%;
 }
