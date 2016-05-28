@@ -32,7 +32,7 @@ var listener = io.listen(server);
 
 router.get('/', function(req, res, next) {
 	res.render('index', { 
-		title: 'Express',
+		title: 'Pubcrawl',
 		scripts: ['js/index.js']
 	});
 });

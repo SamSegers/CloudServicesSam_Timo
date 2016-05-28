@@ -10,10 +10,13 @@ block content
 				div.author-id 
 					span author id
 			ul
-		section.race-input
-			input.name(type='text', placeholder='name')
-			input.add(type='button', value='add', onclick='addRace()')
 
+		section.race-input
+			input.new(type='button', value='new', onclick='newRace()')
+			input.name(type='text', placeholder='name', autocomplete='off')
+			input.add(type='button', value='add', onclick='saveRace()')
+
+		section.race-message
 block styles
 	link(rel='stylesheet', href='/stylesheets/races.css')
 
