@@ -29,7 +29,7 @@ $section.signIn.find('.button > input').click(function(){
 		password: $section.signIn.find('.password > input').val()
 	}
 
-	$.post('http://localhost:3001/login', body, function(data){
+	$.post('/login', body, function(data){
 		$section.message.html('signed in');
 		$section.menu.find('.username').text(data.username).show();
 		$section.menu.find('.sign-out').show();
@@ -46,7 +46,7 @@ $section.signUp.find('.button > input').click(function(){
 	let passwordRepeat = $section.signUp.find('.password-repeat').val();
 
 	if(body.password==passwordRepeat){
-		$.post('http://localhost:3001/signup', body, function(data){
+		$.post('/signup', body, function(data){
 			$section.message.html('signed up');
 			$section.signUp.hide();
 			console.log(data);

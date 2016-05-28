@@ -5,9 +5,14 @@ block content
 		h2 races
 		section.race-list
 			div.row.header
-				span.name name
-				span.author-id author id
+				div.name 
+					span name
+				div.author-id 
+					span author id
 			ul
+		section.race-input
+			input.name(type='text', placeholder='name')
+			input.add(type='button', value='add', onclick='addRace()')
 
 block styles
 	link(rel='stylesheet', href='/stylesheets/races.css')

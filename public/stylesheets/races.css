@@ -1,21 +1,29 @@
+section.race-list{
+	margin-bottom: 20px;
+}
+
 section.race-list ul{
     list-style-type: none;
 	margin: 0px;
 	padding: 0px;
-	font-size: 0px;
 }
 
-section.race-list .row > span{
+section.race-list .row > div{
 	display: inline-block;
+	font-size: 0px;
+	padding: 5px;
+}
+
+section.race-list .row > div.name{
+	width: 350px;
+}
+
+section.race-list .row > div.author-id{
+	width: 250px;
+}
+
+section.race-list .row > div > span{
 	font-size: medium;
-}
-
-section.race-list .row > span.name{
-	width: 400px;
-}
-
-section.race-list .row > span.author-id{
-	width: 100px;
 }
 
 section.race-list .header{
@@ -24,4 +32,8 @@ section.race-list .header{
 
 section.race-list ul > li.odd{
 	background: #f1f1f1;
+}
+
+section.race-input input.name{
+	width: 350px;
 }
