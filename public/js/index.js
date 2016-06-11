@@ -18,12 +18,32 @@ $section.menu.find('.sign-in').click(function(){
 });
 
 $section.menu.find('.sign-out').click(function(){
-	$section.menu.find('.username').hide();
-	$(this).hide();
-	$section.message.html('signed out');
+	signOut();
 });
 
 $section.signIn.find('.button > input').click(function(){
+	signIn();
+});
+
+$section.signUp.find('.button > input').click(function(){
+	signUp();
+});
+
+$section.signIn.find(".username > input").keyup(function(e){
+    if(e.keyCode == 13) $section.signIn.find(".password > input").focus();
+});
+
+$section.signIn.find(".password > input").keyup(function(e){
+    if(e.keyCode == 13) signIn();
+});
+
+function signOut(){
+	$section.menu.find('.username').hide();
+	$(this).hide();
+	$section.message.html('signed out');
+}
+
+function signIn(){
 	let body = {
 		username: $section.signIn.find('.username > input').val(),
 		password: $section.signIn.find('.password > input').val()
@@ -36,9 +56,9 @@ $section.signIn.find('.button > input').click(function(){
 		$section.signIn.hide();
 		console.log(data);
 	});
-});
+}
 
-$section.signUp.find('.button > input').click(function(){
+function signUp(){
 	let body = {
 		username: $section.signUp.find('.username > input').val(),
 		password: $section.signUp.find('.password > input').val()
@@ -52,4 +72,4 @@ $section.signUp.find('.button > input').click(function(){
 			console.log(data);
 		});
 	}else $section.message.html('repeated password does not match');
-});
+}

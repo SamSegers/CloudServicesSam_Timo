@@ -31,7 +31,11 @@ section.race-list .row > div.name{
 }
 
 section.race-list .row > div.author-id{
-	width: 240px;
+	width: 220px;
+}
+
+section.race-list .row > div.delete:hover{
+	color: blue;
 }
 
 section.race-list .row > div > span{
@@ -42,10 +46,15 @@ section.race-list .header{
 	font-weight: bold;
 }
 
-section.race-input input.new, section.race-input input.add{
+section.race-input input.new, 
+section.race-input input.add{
 	width: 50px;
 }
 
 section.race-input input.name{
 	width: 300px;
+}
+
+section.race-message{
+	margin-top: 10px;
 }

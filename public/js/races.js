@@ -20,8 +20,15 @@ function loadRaces(){
 		races.forEach(function(race){
 			$list.append(
 				"<li data-id='"+race._id+"' class='row"+(odd?' odd':'')+"'>"+
-					"<div class='name'><span>"+race.name+"</span></div>"+
-					"<div class='author-id'><span>"+race.authorId+"</span></div>"+
+					"<div class='name'>"+
+						"<span>"+race.name+"</span>"+
+					"</div>"+
+					"<div class='author-id'>"+
+						"<span>"+race.authorId+"</span>"+
+					"</div>"+
+					"<div class='delete'>"+
+						"<span>delete</span>"+
+					"</div>"+
 				"</li>"
 			);
 
@@ -30,8 +37,8 @@ function loadRaces(){
 	});
 }
 
-$(".race-list ul").on('click', 'li', function(){
-	select($(this));
+$(".race-list ul").on('click', 'li .name, li .author-id', function(){
+	select($(this).parent());
 });
 
 function select(entry){
@@ -78,8 +85,11 @@ function saveRace(){
 						"<div class='name'>"+
 							"<span>"+race.name+"</span>"+
 						"</div>"+
-							"<div class='author-id'>"+
+						"<div class='author-id'>"+
 							"<span>"+race.authorId+"</span>"+
+						"</div>"+
+						"<div class='delete'>"+
+							"<span>delete</span>"+
 						"</div>"+
 					"</li>"
 				);
@@ -103,4 +113,23 @@ function saveRace(){
 			}
 		});
 	}
+}
+
+$('section.race-list > ul').on('click', 'li .delete', function(){
+	removeRace($(this).parent());
+});
+
+function removeRace(entry){
+	let id = entry.attr('data-id');
+	$.ajax({
+		url: '/races/'+id,
+		type: 'DELETE',
+		success: function(data) {
+			loadRaces();
+		},
+		error: function(err){
+			console.log(err);
+			$("section.race-message").html(err.responseText);
+		}
+	});
 }
