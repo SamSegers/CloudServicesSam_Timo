@@ -1,0 +1,5 @@
+set mongo_path="C:\Program Files\MongoDB\Server\3.2\bin"
+set data_path="%cd%\data"
+start cmd.exe /k "cd %mongo_path% & mongod --dbpath %data_path%"
+start cmd.exe /k "cd %mongo_path% & mongo"
+start cmd.exe /k "cd %cd% & nodemon start"

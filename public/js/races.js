@@ -67,10 +67,14 @@ $txtName.keyup(function(e){
 });
 
 function saveRace(){
+	
+	
+	
 	let name = $txtName.val();
 	let $list = $('.race-list ul');
-
 	if(id==null){
+		
+		
 		$.post('/races/new/'+name, 
 			function(race){
 				$btnNew.prop("disabled", false);
@@ -101,6 +105,7 @@ function saveRace(){
 			}
 		);
 	}else{
+		
 		$.ajax({
 			url: '/races/'+id+'/name/'+name,
 			type: 'PUT',
@@ -121,6 +126,10 @@ $('section.race-list > ul').on('click', 'li .delete', function(){
 
 function removeRace(entry){
 	let id = entry.attr('data-id');
+	
+	var socket = io.connect('http://localhost:3001');
+	socket.emit('deleteRace', { Id: id });
+	
 	$.ajax({
 		url: '/races/'+id,
 		type: 'DELETE',
