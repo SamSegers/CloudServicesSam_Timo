@@ -13,7 +13,7 @@ function getPubs(req, res){
 		},
 	}, function(err, response, body){
 		if(err) res.status(400).json(err);
-		else res.status(200).send(body);
+		else res.status(200).json(body);
 	});
 }
 
@@ -29,7 +29,7 @@ function getPub(req, res){
 			},
 		}, function(err, response, body){
 			if(err) res.status(400).json(err);
-			else res.status(200).send(body);
+			else res.status(200).json(body);
 		});
 	}
 }
