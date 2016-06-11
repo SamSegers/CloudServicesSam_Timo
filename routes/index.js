@@ -30,9 +30,9 @@ io.on('connection',function(socket){
 	});
 });
 
-http.listen(3000,function(){
+/*http.listen(3000,function(){
 	
-});
+});*/
 //server.listen(3000);
 
 //var listener = io.listen(server);
@@ -71,9 +71,9 @@ router.post('/login', function(req, res, next){
 	req.session.user = req.user;
 	req.session.save(function (err) {
 		if (err) return res.send('an error occured');
-		return res.json(req.user); //res.send('authorized');
+		return res.status(200).json(req.user);
 	});
-	console.log(req.session);
+	//console.log(req.session);
 });
 
 //TODO figure out if this should be POST or if /login and /signup should be GET
