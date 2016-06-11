@@ -1,0 +1,24 @@
+extends layout
+
+block content
+	div.wrapper.races
+		h2 races
+		section.race-list
+			div.row.header
+				div.name 
+					span name
+				div.author-id 
+					span author id
+			ul
+
+		section.race-input
+			input.new(type='button', value='new', onclick='newRace()')
+			input.name(type='text', placeholder='name', autocomplete='off')
+			input.update(type='button', value='add', onclick='saveRace()')
+
+		section.race-message
+block styles
+	link(rel='stylesheet', href='/stylesheets/races.css')
+
+block scripts
+	script(src='/js/races.js')

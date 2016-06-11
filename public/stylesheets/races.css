@@ -1,0 +1,51 @@
+section.race-list{
+	margin-bottom: 20px;
+}
+
+section.race-list ul{
+    list-style-type: none;
+	margin: 0px;
+	padding: 0px;
+}
+
+section.race-list ul > li{
+	cursor: pointer;
+}
+
+section.race-list ul > li.odd{
+	background: #f1f1f1;
+}
+
+section.race-list ul > li.selected{
+	background: #C9F2FF;
+}
+
+section.race-list .row > div{
+	display: inline-block;
+	font-size: 0px;
+	padding: 5px;
+}
+
+section.race-list .row > div.name{
+	width: 340px;
+}
+
+section.race-list .row > div.author-id{
+	width: 240px;
+}
+
+section.race-list .row > div > span{
+	font-size: medium;
+}
+
+section.race-list .header{
+	font-weight: bold;
+}
+
+section.race-input input.new, section.race-input input.add{
+	width: 50px;
+}
+
+section.race-input input.name{
+	width: 300px;
+}

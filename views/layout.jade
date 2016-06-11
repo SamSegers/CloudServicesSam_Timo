@@ -1,0 +1,36 @@
+doctype html
+html
+	head
+		title= title
+		link(rel='stylesheet', href='/stylesheets/style.css')
+		block styles
+	body
+		h1 pubcrawl
+		div.wrapper.authentication
+			section.menu
+				span.username username
+				span.sign-in sign in
+				span.sign-out sign out
+				span.sign-up sign up
+			section.form.sign-in
+				div.username
+					input(type='text', placeholder='username')
+				div.password
+					input(type='password', placeholder='password')
+				div.button
+					input(type='button', value='sign in')
+			section.form.sign-up
+				div.username
+					input(type='text', placeholder='username', autocomplete='off')
+				div.password
+					input(type='password', placeholder='password')
+				div.password-repeat
+					input(type='password', placeholder='repeat password')
+				div.button
+					input(type='button', value='sign up')
+			section.message
+		block content
+
+		script(src='https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js')
+		script(src='js/index.js')
+		block scripts

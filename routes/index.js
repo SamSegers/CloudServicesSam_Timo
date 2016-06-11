@@ -7,7 +7,7 @@ var passport = require('passport');
 var bodyParser = require('body-parser');
 var mongoose = require('mongoose');
 
-var User = mongoose.model('User'); //User = require('../models/user');
+var User = mongoose.model('User');
 	
 /*var server = http.createServer(function(request,response)
 {
@@ -40,7 +40,10 @@ http.listen(3000,function(){
 //});
 
 router.get('/', function(req, res, next) {
-	res.render('index', { title: 'Express' });
+	res.render('index', { 
+		title: 'Pubcrawl',
+		scripts: ['js/index.js']
+	});
 });
 
 router.get('/commands', function(req, res, next) {
@@ -55,11 +58,6 @@ router.post('/signup', function(req, res) {
 			return res.send('signed up');
         });
     });
-});
-
-router.post('/signup2', function(req, res) {
-	console.log(req.body.username);
-	res.status(200).send('signed up');
 });
 
 router.post('/login', function(req, res, next){
