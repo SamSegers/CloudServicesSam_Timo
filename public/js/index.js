@@ -1,7 +1,7 @@
 "use strict"
 
 let $section = {
-	menu: $('section.menu'),
+	menu: $('section.authentication-menu'),
 	signUp: $('section.form.sign-up'),
 	signIn: $('section.form.sign-in'),
 	message: $('section.message')

@@ -1,17 +1,19 @@
-doctype html
+doctype
+
 html
 	head
 		title= title
 		link(rel='stylesheet', href='/stylesheets/style.css')
 		block styles
 	body
-		block scripts
-		script(src='/socket.io/socket.io.js')
-			script(src='/js/races.js')
-			
 		h1 pubcrawl
+		section.wrapper.menu
+			a(href='/')	races
+			a(href='/pubs-view') pubs
+			a(href='/users-view') users
+			a(href='/commands') commands
 		div.wrapper.authentication
-			section.menu
+			section.authentication-menu
 				span.username username
 				span.sign-in sign in
 				span.sign-out sign out
@@ -36,5 +38,6 @@ html
 		block content
 
 		script(src='https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js')
+		script(src='js/socket.io.js')
 		script(src='js/index.js')
 		block scripts

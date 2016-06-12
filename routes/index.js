@@ -24,7 +24,6 @@ var User = mongoose.model('User');
 
 //io.on('connection',function(socket){});
 io.on('connection',function(socket){
-	
 	socket.on('disconnect', function(data){
 		
 	});
@@ -39,30 +38,30 @@ io.on('connection',function(socket){
 	
 	socket.on('newRace', function(racename){
 		Race.find({name: newName}, function(err, data){
-		if(data.length==0){
-			var race = new Race({
-				name: newName,
-			});
-			race.save(function(err, savedRace){
-				if(err){ return handleError(req, res, 500, err); }
-				else{
-				
-				}
-			});
-		}
-	});
+			if(data.length==0){
+				var race = new Race({
+					name: newName,
+				});
+				race.save(function(err, savedRace){
+					if(err){ return handleError(req, res, 500, err); }
+					else{
+					
+					}
+				});
+			}
+		});
 	});
 	
 	socket.on('deleteRace', function(raceid){
 		var query = {};
 		query._id = raceid.Id;
 		Race.remove(
-		query,
-		function(err, data){
-			if(err){ return handleError(req, res, 500, err); }
-			res.status(200).send('race successfully removed');
-		}
-	);
+			query,
+			function(err, data){
+				if(err){ return handleError(req, res, 500, err); }
+				res.status(200).send('race successfully removed');
+			}
+		);
 	});
 });
 
@@ -80,6 +79,14 @@ router.get('/', function(req, res, next) {
 		title: 'Pubcrawl',
 		scripts: ['js/index.js']
 	});
+});
+
+router.get('/pubs-view', function(req, res, next) {
+	res.render('pubs', { title: 'Express' });
+});
+
+router.get('/users-view', function(req, res, next) {
+	res.render('users', { title: 'Express' });
 });
 
 router.get('/commands', function(req, res, next) {

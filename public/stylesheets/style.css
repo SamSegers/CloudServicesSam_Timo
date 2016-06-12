@@ -18,6 +18,10 @@ div.wrapper{
 	margin: 0px auto;
 }
 
+section.wrapper.menu > a{
+	margin-right: 20px;
+}
+
 div.wrapper.authentication{
 	margin-bottom: 15px;
 }
@@ -26,17 +30,17 @@ div.wrapper.authentication section{
 	margin-bottom: 5px;
 }
 
-div.wrapper.authentication section.menu span{
+div.wrapper.authentication section.authentication-menu span{
 	padding-right: 15px;
 	cursor: pointer;
 }
 
-div.wrapper.authentication section.menu span:hover{
+div.wrapper.authentication section.authentication-menu span:hover{
 	color: #636363;
 }
 
-div.wrapper.authentication section.menu span.username,
-div.wrapper.authentication section.menu span.sign-out{
+div.wrapper.authentication section.authentication-menu span.username,
+div.wrapper.authentication section.authentication-menu span.sign-out{
 	display: none;
 } 
 

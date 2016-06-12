@@ -1,0 +1,43 @@
+section.pub-list{
+	margin-bottom: 20px;
+}
+
+section.pub-list ul{
+    list-style-type: none;
+	margin: 0px;
+	padding: 0px;
+}
+
+section.pub-list ul > li{
+	cursor: pointer;
+}
+
+section.pub-list ul > li.odd{
+	background: #f1f1f1;
+}
+
+section.pub-list ul > li.selected{
+	background: #C9F2FF;
+}
+
+section.pub-list .row > div{
+	display: inline-block;
+	font-size: 0px;
+	padding: 5px;
+}
+
+section.pub-list .row > div.id{
+	width: 380px;
+}
+
+section.pub-list .row > div.name{
+	width: 220px;
+}
+
+section.pub-list .row > div > span{
+	font-size: medium;
+}
+
+section.pub-list .header{
+	font-weight: bold;
+}

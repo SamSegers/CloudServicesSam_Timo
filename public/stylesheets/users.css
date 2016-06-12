@@ -1,0 +1,47 @@
+section.user-list{
+	margin-bottom: 20px;
+}
+
+section.user-list ul{
+    list-style-type: none;
+	margin: 0px;
+	padding: 0px;
+}
+
+section.user-list ul > li{
+	cursor: pointer;
+}
+
+section.user-list ul > li.odd{
+	background: #f1f1f1;
+}
+
+section.user-list ul > li.selected{
+	background: #C9F2FF;
+}
+
+section.user-list .row > div{
+	display: inline-block;
+	font-size: 0px;
+	padding: 5px;
+}
+
+section.user-list .row > div.id{
+	width: 210px;
+}
+
+section.user-list .row > div.username{
+	width: 200px;
+}
+
+section.user-list .row > div.password{
+	width: 200px;
+}
+
+section.user-list .row > div > span{
+	font-size: medium;
+}
+
+section.user-list .header{
+	font-weight: bold;
+}
