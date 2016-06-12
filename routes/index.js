@@ -8,20 +8,45 @@ var bodyParser = require('body-parser');
 var mongoose = require('mongoose');
 
 var User = mongoose.model('User');
-	
+var Race = mongoose.model('Race');	
 
 http.listen(80);
 io.on('connection', function (socket) {
 	
 	socket.on('editRace',function (data) {
 		console.log(data);
+		var query = {};
+		query._id = data.Id;
+		//if(req.params.id) query._id = req.params.id;
+		//else if(req.params.oldName) query.name = req.params.oldName;	
+
+		Race.findByIdAndUpdate(
+			query,
+			{name: data.Racename},
+			{safe: true, upsert: true},
+			function(err, data) {
+				if(err){} //return handleError(req, res, 500, err); }
+				//else res.status(200).json(data);
+			}
+		);
+		
+		socket.emit('refresh', {});
 	});
-	socket.on('newRace',function (data) {
-		console.log(data);
-	});
+	
 	socket.on('deleteRace', function (data) {
 		console.log(data);
-		// deleteRace hiero
+		
+		var query = {};
+		query._id = data.Id;
+		Race.remove(
+		query,
+			function(err, data){
+				if(err){ } //return handleError(req, res, 500, err); }
+				
+				//res.status(200).send('race successfully removed');
+			}
+		);
+		socket.emit('refresh', { });
 	});
 });
 

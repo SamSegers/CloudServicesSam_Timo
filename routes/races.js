@@ -198,8 +198,8 @@ function updateRaceEndDate(req, res){
 }
 
 // DELETE
-
 function removeRace(req, res){
+	
 	var query = {};
 	if(req.params.id) query._id = req.params.id;
 	else if(req.params.name) query.name = req.params.name;	
@@ -208,6 +208,7 @@ function removeRace(req, res){
 		query,
 		function(err, data){
 			if(err){ return handleError(req, res, 500, err); }
+			
 			res.status(200).send('race successfully removed');
 		}
 	);
