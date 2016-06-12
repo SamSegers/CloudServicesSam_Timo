@@ -1,5 +1,5 @@
 "use strict"
-
+let socket = io.connect('http://localhost:80');
 let $section = {
 	menu: $('section.authentication-menu'),
 	signUp: $('section.form.sign-up'),

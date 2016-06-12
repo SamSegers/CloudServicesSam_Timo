@@ -70,7 +70,8 @@ function saveRace(){
 	let name = $txtName.val();
 	let $list = $('.race-list ul');
 	if(id==null){
-		$.post('/races/new/'+name, 
+		socket.emit('newRace', { Racename: name });
+		/*$.post('/races/new/'+name, 
 			function(race){
 				$btnNew.prop("disabled", false);
 
@@ -98,10 +99,11 @@ function saveRace(){
 				console.log(err);
 				$("section.race-message").html(err);
 			}
-		);
+		);*/
 	}else{
-		
-		$.ajax({
+		socket.emit('editRace', {Raceid: id 
+								,Racename: name });
+		/*$.ajax({
 			url: '/races/'+id+'/name/'+name,
 			type: 'PUT',
 			success: function(data) {
@@ -111,7 +113,7 @@ function saveRace(){
 				console.log(err);
 				$("section.race-message").html(err.responseText);
 			}
-		});
+		});*/
 	}
 }
 
@@ -122,10 +124,10 @@ $('section.race-list > ul').on('click', 'li .delete', function(){
 function removeRace(entry){
 	let id = entry.attr('data-id');
 	
-	/*let socket = io.connect('http://localhost:3001');
-	socket.emit('deleteRace', { Id: id });*/
 	
-	$.ajax({
+	socket.emit('deleteRace', { Id: id });
+	
+	/*$.ajax({
 		url: '/races/'+id,
 		type: 'DELETE',
 		success: function(data) {
@@ -135,5 +137,5 @@ function removeRace(entry){
 			console.log(err);
 			$("section.race-message").html(err.responseText);
 		}
-	});
+	});*/
 }

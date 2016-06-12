@@ -9,71 +9,23 @@ var mongoose = require('mongoose');
 
 var User = mongoose.model('User');
 	
-/*var server = http.createServer(function(request,response)
-{
-	var path = url.parse(request.url).pathname;
-	
-	switch(path)
-	{
-		default:
-			response.writeHead(404);
-			response.end();
-			break;
-	}
-});*/
 
-//io.on('connection',function(socket){});
-io.on('connection',function(socket){
-	socket.on('disconnect', function(data){
-		
-	});
+http.listen(80);
+io.on('connection', function (socket) {
 	
-	socket.on('saveRace', function(data){
-		
+	socket.on('editRace',function (data) {
+		console.log(data);
 	});
-	
-	socket.on('loadRaces', function(data){
-		
+	socket.on('newRace',function (data) {
+		console.log(data);
 	});
-	
-	socket.on('newRace', function(racename){
-		Race.find({name: newName}, function(err, data){
-			if(data.length==0){
-				var race = new Race({
-					name: newName,
-				});
-				race.save(function(err, savedRace){
-					if(err){ return handleError(req, res, 500, err); }
-					else{
-					
-					}
-				});
-			}
-		});
-	});
-	
-	socket.on('deleteRace', function(raceid){
-		var query = {};
-		query._id = raceid.Id;
-		Race.remove(
-			query,
-			function(err, data){
-				if(err){ return handleError(req, res, 500, err); }
-				res.status(200).send('race successfully removed');
-			}
-		);
+	socket.on('deleteRace', function (data) {
+		console.log(data);
+		// deleteRace hiero
 	});
 });
 
-/*http.listen(3000,function(){
 	
-});*/
-//server.listen(3000);
-
-//var listener = io.listen(server);
-//	listener.sockets.on('connection',function(socket){
-//});
-
 router.get('/', function(req, res, next) {
 	res.render('index', { 
 		title: 'Pubcrawl',
