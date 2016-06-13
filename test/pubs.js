@@ -28,11 +28,11 @@ describe('testing pubs route', function(){
 	});
 
 	it("should return 'Cafe de Unie'", function(done){
-		makeRequest('/pubs/212f351f3cfca0bc1e20c86d5d45823326858a07', 200, function(err, res){
+		makeRequest('/pubs/ChIJM8kGb1juxkcRkAubH2-Anhw', 200, function(err, res){
 			if(err) return done(err);
 
 			var object = JSON.parse(res.body)
-			console.log(object);
+			expect(object.result.name).to.equal('Cafe de Unie');
 			
 			done();
 		});
